@@ -1,0 +1,187 @@
+const mongoose=require('mongoose');
+const express=require('express');
+const app=express();
+const cors=require('cors')
+const jwt=require('jsonwebtoken')
+const bcrypt=require("bcrypt")
+const multer=require("multer")
+
+app.use(express.json())
+app.use(cors())
+
+require('dotenv').config();
+
+
+
+const Port=process.env.React_app_port||9000 ;
+
+const key=process.env.Token_Key
+
+
+
+app.listen(Port,()=>{
+    console.log("server is running on port 9000")
+})
+
+mongoose.connect("mongodb://127.0.0.1:27017/municipal")
+.then(()=>
+    console.log("connected to mongodb")
+)
+.catch((err)=>
+console.log("error while connecting to db"))
+
+
+
+
+
+//register schema model and api
+const registerSchema= new mongoose.Schema({
+    Name:String,
+    Email:String,
+    Password:String,
+    Isactive:Boolean,
+    Role:String
+},{versionKey:false})
+
+const Registermodel=mongoose.model("Signup",registerSchema)
+
+
+app.post("/api/signup",async(req,res)=>{
+   const finduser = await Registermodel.findOne({Email:req.body.email})
+
+    if(finduser){
+        res.send({statuscode:2})
+    }
+    else{
+        const hash=bcrypt.hashSync(req.body.pass,10)
+        const result= new Registermodel({
+            Name:req.body.name,
+            Email:req.body.email,
+            Password:hash,
+            Isactive:true,
+            Role:"user"
+        })
+        const user=await result.save()
+
+        res.send({statuscode:1})
+    }
+})
+
+
+///login api
+app.post("/api/login",async(req,res)=>{
+const find=await Registermodel.findOne({Email:req.body.email})
+console.log(find)
+
+if(find.Isactive===true){
+    const hash=find.Password
+
+
+   
+    const user={
+        id: find._id,
+        name: find.Name,
+      
+       
+    }
+    const role = { role: find.Role }
+
+    const bypass=bcrypt.compareSync(req.body.pass,hash)
+
+        if(bypass===true){
+           console.log("role is",role)
+            let token=jwt.sign({data:find._id,},"&%*@!*67gy8@gyu*%@gvhqkjjnnj12jj@la",{expiresIn:"1h"})
+        res.send({statuscode:1,memberdata:user
+            ,authtoken:token,role:role
+        })
+    }
+    else{
+        res.send({statuscode:0})
+    }
+
+}
+else{
+    res.send({statuscode:2})
+}
+
+})
+
+//complaint schema model multer and api
+
+let pic 
+const mystorage=multer.diskStorage({
+    destination:(req,res,cb)=>{
+        cb(null,"public/uploads")
+    },
+    filename:(req,file,cb)=>{
+        pic= Date.now()+file.originalname
+        cb(null,pic)
+    }
+})
+
+const upload=multer({storage:mystorage})
+
+
+const Complaintschema= new mongoose.Schema({
+    Userid:String,
+    Name:String,
+    Email:String,
+    Phone:Number,
+    Problem:String,
+    Adress:String,
+    Detail:String,
+    Pic:String,
+    AddOn:String,
+    Status:String
+},{versionKey:false})
+
+
+const Compmodel= mongoose.model("Complaints",Complaintschema)
+
+
+app.post("/api/complaint",upload.single('pic'),async(req,res)=>{
+    if(!req.file){
+        res.send({statuscode:2})
+    }
+    else{
+        const record= new Compmodel({
+            Userid:req.body.id,
+            Name:req.body.name,
+            Email:req.body.email,
+            Phone:req.body.phone,
+            Problem:req.body.problem,
+            Adress:req.body.adress,
+            Detail:req.body.msg,
+            Pic:req.file.filename,
+            AddOn:new Date,
+            Status:"Not Assigned"
+        })
+        const result= await record.save()
+        console.log(result)
+        if(result){
+            res.send({statuscode:1})
+        }
+        else{
+            res.send({statuscode:0})
+        }
+    }
+})
+
+
+
+
+//complaint  get with userid  api
+
+
+app.get("/api/compget/:id",async(req,res)=>{
+
+const result = await Compmodel.findOne({Userid:req.params.id})
+
+if(result){
+    res.send({statuscode:1,compdata:[result]})
+    console.log(result)
+}
+else{
+    res.send({statuscode:0})
+}
+})
