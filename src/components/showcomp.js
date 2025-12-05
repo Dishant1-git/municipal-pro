@@ -14,9 +14,13 @@ return state.userslice
 })
 
     useEffect(() => {
-        const user = JSON.parse(sessionStorage.getItem("info"))
+
+        if(LoggedIn){
+  const user = JSON.parse(sessionStorage.getItem("info"))
 
         setid(user.id)
+        }
+      
         // if(LoggedIn){
         //    show() 
         //    alert(id)
@@ -28,12 +32,12 @@ return state.userslice
     },[])
 
     useEffect(()=>{
-        if(LoggedIn&&id){
-            alert(id)
+        if(!LoggedIn){
+             navigate("/login")
         }else{
-            alert("id is not here")
+         show()  
         }
-    },[id])
+    },[LoggedIn&&id])
   
 
 
@@ -88,8 +92,9 @@ return state.userslice
 
                         <div class="col-xl-12 col-md-12 col-sm-12 col-12">
                             <div class="row g-5">
-
-                                {
+{
+    allcom.length>0?<>
+     {
                                     allcom.map((a,index) =>
                                         <div key={index} class="col-lg-6 col-md-6 col-sm-12" data-animation="fadeInUp" data-delay="0.1">
                                             <div class="single-blog-area-one column-reverse">
@@ -106,6 +111,9 @@ return state.userslice
                                         </div>
                                     )
                                 }
+    </>:<><h3>You did not Filled any complaint yet</h3></>
+}
+                               
 
 
                             </div>

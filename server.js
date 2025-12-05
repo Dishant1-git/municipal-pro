@@ -138,6 +138,7 @@ const Complaintschema= new mongoose.Schema({
 
 const Compmodel= mongoose.model("Complaints",Complaintschema)
 
+//post complaint
 
 app.post("/api/complaint",upload.single('pic'),async(req,res)=>{
     if(!req.file){
@@ -184,4 +185,18 @@ if(result){
 else{
     res.send({statuscode:0})
 }
+})
+
+
+//get all complaints admin
+
+
+app.get("/api/allcomp",async(req,res)=>{
+    const result = await Compmodel.find()
+    if(result){
+        res.send({statuscode:1,compdata:result})
+    }
+    else{
+        res.send({statuscode:0})
+    }
 })

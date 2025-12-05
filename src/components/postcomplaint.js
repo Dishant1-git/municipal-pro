@@ -19,8 +19,11 @@ return state.userslice
 })
 
     useEffect(()=>{
-        const udata=JSON.parse(sessionStorage.getItem("info"))
+        if(LoggedIn){
+            const udata=JSON.parse(sessionStorage.getItem("info"))
         setid(udata.id)
+        }
+        
      
     },[])
     

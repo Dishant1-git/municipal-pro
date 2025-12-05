@@ -41,9 +41,9 @@ if(res.ok){
             <div class="row">
                 <div class="col-lg-12">
                     <div class="title-area-left center">
-                        <span class="bg-title">Contact</span>
+                        <span class="bg-title">Signup</span>
                         <h1 class="title rts-text-anime-style-1">
-                            Contact Us
+                          Signup
                         </h1>
                     </div>
                 </div>

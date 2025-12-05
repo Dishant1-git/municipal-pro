@@ -4,6 +4,7 @@ import { Signup } from "./Signup"
 import { Login } from "./login"
 import { Postcom } from "./postcomplaint"
 import { Usercomp } from "./showcomp"
+import { Compadmin } from "./compadmin"
 
 export const Routee=()=>{
     return(
@@ -14,6 +15,7 @@ export const Routee=()=>{
            <Route path="/login" element={<Login/>}/>
            <Route path="/complaint" element={<Postcom/>}/>
            <Route path="/Compshow" element={<Usercomp/>}/>
+           <Route path="/Compshowadmin" element={<Compadmin/>}/>
         </Routes>
         </>
     )

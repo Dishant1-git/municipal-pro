@@ -1,6 +1,22 @@
+import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 
 export const User=()=>{
+
+    const[flag,setflag]=useState("false")
+
+    const{LoggedIn}= useSelector((state)=>{
+        return state.userslice
+    })
+
+    useEffect(()=>{
+        if(LoggedIn){
+            setflag("true")
+        }
+    },[LoggedIn])
+
+
     return(
         <>
         <header class="header-one header--sticky">
@@ -49,7 +65,7 @@ export const User=()=>{
                             <div class="main-header">
                                 <div class="nav-area">
                                     <ul class="">
-                                        <li class="main-nav has-dropdown mega-menu project-a-after">
+                                        <li class="main-nav      project-a-after">
                                             <Link to="/">Home</Link>
                                            
                                         </li>
@@ -246,7 +262,7 @@ export const User=()=>{
                                             </div>
                                         </li>
                                         <li class="main-nav has-dropdown mega-menu">
-                                            <a href="#">Project</a>
+                                            <a href="#">Blogs</a>
                                             <div class="rts-mega-menu">
                                                 <div class="wrapper">
                                                     <div class="container">
@@ -342,12 +358,18 @@ export const User=()=>{
                                             </div>
                                         </li>
                                         <li class="main-nav has-dropdown project-a-after">
-                                            <a href="#">Blog</a>
+                                            <a href="#">Account</a>
                                             <ul class="submenu parent-nav">
-                                                <li><a href="blog-grid.html">Blog Grid</a></li>
-                                                <li><a href="blog-list.html">Blog List</a></li>
-                                                <li><a href="blog-details.html">Blog Details</a></li>
-                                                <li><a href="blog-details-2.html">Blog Details 2</a></li>
+                                                {
+                                                    flag!=="true"?<><li><Link to="/login">Login</Link></li>
+                                                <li><Link to="/signup">Signup</Link></li>
+                                                    </>:<>
+                                                        <li><Link>Logout</Link></li>
+                                                    </>
+                                                }
+                                                
+                                            
+                                               
                                             </ul>
                                         </li>
                                         <li class="main-nav has-dropdown project-a-after">
