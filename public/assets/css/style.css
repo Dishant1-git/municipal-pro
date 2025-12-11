@@ -1016,7 +1016,7 @@ input[type=password],
 input[type=email],
 input[type=number],
 input[type=tel],
-textarea {
+textarea,select {
   font-size: var(--font-size-b2);
   font-weight: 400;
   height: auto;
@@ -1035,7 +1035,7 @@ input[type=password]::placeholder,
 input[type=email]::placeholder,
 input[type=number]::placeholder,
 input[type=tel]::placeholder,
-textarea::placeholder {
+textarea::placeholder,select {
   color: var(--body-color);
   /* Firefox */
   opacity: 1;
@@ -1307,6 +1307,17 @@ input[type=radio] ~ label::after {
   font-weight: 500;
 }
 .form-group input {
+  border: 0 none;
+  border-radius: 4px;
+  height: 50px;
+  font-size: var(--font-size-b2);
+  transition: var(--transition);
+  padding: 0 20px;
+  background-color: var(--color-lightest);
+  border: 1px solid transparent;
+  transition: var(--transition);
+}
+.form-group select {
   border: 0 none;
   border-radius: 4px;
   height: 50px;
@@ -17476,6 +17487,12 @@ body.with-sticky-item {
   margin-top: 40px;
 }
 .replay-area-details form input {
+  height: 55px;
+  border-radius: 15px;
+  background: #F6F6F6;
+  border: 1px solid transparent;
+}
+.replay-area-details form select {
   height: 55px;
   border-radius: 15px;
   background: #F6F6F6;

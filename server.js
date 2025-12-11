@@ -1,10 +1,10 @@
-const mongoose=require('mongoose');
-const express=require('express');
-const app=express();
-const cors=require('cors')
-const jwt=require('jsonwebtoken')
-const bcrypt=require("bcrypt")
-const multer=require("multer")
+const mongoose = require('mongoose');
+const express = require('express');
+const app = express();
+const cors = require('cors')
+const jwt = require('jsonwebtoken')
+const bcrypt = require("bcrypt")
+const multer = require("multer")
 
 app.use(express.json())
 app.use(cors())
@@ -13,157 +13,182 @@ require('dotenv').config();
 
 
 
-const Port=process.env.React_app_port||9000 ;
+const Port = process.env.React_app_port || 9000;
 
-const key=process.env.Token_Key
+const key = process.env.Token_Key
 
 
 
-app.listen(Port,()=>{
+app.listen(Port, () => {
     console.log("server is running on port 9000")
 })
 
 mongoose.connect("mongodb://127.0.0.1:27017/municipal")
-.then(()=>
-    console.log("connected to mongodb")
-)
-.catch((err)=>
-console.log("error while connecting to db"))
+    .then(() =>
+        console.log("connected to mongodb")
+    )
+    .catch((err) =>
+        console.log("error while connecting to db"))
 
 
 
 
 
 //register schema model and api
-const registerSchema= new mongoose.Schema({
-    Name:String,
-    Email:String,
-    Password:String,
-    Isactive:Boolean,
-    Role:String
-},{versionKey:false})
+const registerSchema = new mongoose.Schema({
+    Name: String,
+    Email: String,
+    Password: String,
+    Isactive: Boolean,
+    Role: String
+}, { versionKey: false })
 
-const Registermodel=mongoose.model("Signup",registerSchema)
+const Registermodel = mongoose.model("Signup", registerSchema)
 
 
-app.post("/api/signup",async(req,res)=>{
-   const finduser = await Registermodel.findOne({Email:req.body.email})
+app.post("/api/signup", async (req, res) => {
+    const finduser = await Registermodel.findOne({ Email: req.body.email })
 
-    if(finduser){
-        res.send({statuscode:2})
+    if (finduser) {
+        res.send({ statuscode: 2 })
     }
-    else{
-        const hash=bcrypt.hashSync(req.body.pass,10)
-        const result= new Registermodel({
-            Name:req.body.name,
-            Email:req.body.email,
-            Password:hash,
-            Isactive:true,
-            Role:"user"
+    else {
+        const hash = bcrypt.hashSync(req.body.pass, 10)
+        const result = new Registermodel({
+            Name: req.body.name,
+            Email: req.body.email,
+            Password: hash,
+            Isactive: true,
+            Role: "user"
         })
-        const user=await result.save()
+        const user = await result.save()
 
-        res.send({statuscode:1})
+        res.send({ statuscode: 1 })
     }
 })
 
 
+//find woekers
+
+
+app.get("/api/workers", async (req, res) => {
+    const all = await Registermodel.find({ Isactive: true, Role: "worker" })
+
+    if (all) {
+
+        res.send({ statuscode: 1, worker: all })
+        console.log(all)
+
+
+    }
+    else {
+        res.send({ statuscode: 0 })
+        console.log(all)
+    }
+})
+
 ///login api
-app.post("/api/login",async(req,res)=>{
-const find=await Registermodel.findOne({Email:req.body.email})
-console.log(find)
+app.post("/api/login", async (req, res) => {
+    const find = await Registermodel.findOne({ Email: req.body.email })
+    console.log(find)
 
-if(find.Isactive===true){
-    const hash=find.Password
+    if (find.Isactive === true) {
+        const hash = find.Password
 
 
-   
-    const user={
-        id: find._id,
-        name: find.Name,
-      
-       
+
+        const user = {
+            id: find._id,
+            name: find.Name,
+
+
+        }
+        const role = { role: find.Role }
+
+        const bypass = bcrypt.compareSync(req.body.pass, hash)
+
+        if (bypass === true) {
+            console.log("role is", role)
+            let token = jwt.sign({ data: find._id, }, "&%*@!*67gy8@gyu*%@gvhqkjjnnj12jj@la", { expiresIn: "1h" })
+            res.send({
+                statuscode: 1, memberdata: user
+                , authtoken: token, role: role
+            })
+        }
+        else {
+            res.send({ statuscode: 0 })
+        }
+
     }
-    const role = { role: find.Role }
-
-    const bypass=bcrypt.compareSync(req.body.pass,hash)
-
-        if(bypass===true){
-           console.log("role is",role)
-            let token=jwt.sign({data:find._id,},"&%*@!*67gy8@gyu*%@gvhqkjjnnj12jj@la",{expiresIn:"1h"})
-        res.send({statuscode:1,memberdata:user
-            ,authtoken:token,role:role
-        })
+    else {
+        res.send({ statuscode: 2 })
     }
-    else{
-        res.send({statuscode:0})
-    }
-
-}
-else{
-    res.send({statuscode:2})
-}
 
 })
 
 //complaint schema model multer and api
 
-let pic 
-const mystorage=multer.diskStorage({
-    destination:(req,res,cb)=>{
-        cb(null,"public/uploads")
+let pic
+const mystorage = multer.diskStorage({
+    destination: (req, res, cb) => {
+        cb(null, "public/uploads")
     },
-    filename:(req,file,cb)=>{
-        pic= Date.now()+file.originalname
-        cb(null,pic)
+    filename: (req, file, cb) => {
+        pic = Date.now() + file.originalname
+        cb(null, pic)
     }
 })
 
-const upload=multer({storage:mystorage})
+const upload = multer({ storage: mystorage })
 
 
-const Complaintschema= new mongoose.Schema({
-    Userid:String,
-    Name:String,
-    Email:String,
-    Phone:Number,
-    Problem:String,
-    Adress:String,
-    Detail:String,
-    Pic:String,
-    AddOn:String,
-    Status:String
-},{versionKey:false})
+const Complaintschema = new mongoose.Schema({
+    Userid: String,
+    Name: String,
+    Email: String,
+    Phone: Number,
+    Problem: String,
+    Adress: String,
+    Detail: String,
+    Pic: String,
+    AddOn: String,
+    Status: String,
+    Assignedto: String,
+    Messageadmin: String
+}, { versionKey: false })
 
 
-const Compmodel= mongoose.model("Complaints",Complaintschema)
+const Compmodel = mongoose.model("Complaints", Complaintschema)
 
 //post complaint
 
-app.post("/api/complaint",upload.single('pic'),async(req,res)=>{
-    if(!req.file){
-        res.send({statuscode:2})
+app.post("/api/complaint", upload.single('pic'), async (req, res) => {
+    if (!req.file) {
+        res.send({ statuscode: 2 })
     }
-    else{
-        const record= new Compmodel({
-            Userid:req.body.id,
-            Name:req.body.name,
-            Email:req.body.email,
-            Phone:req.body.phone,
-            Problem:req.body.problem,
-            Adress:req.body.adress,
-            Detail:req.body.msg,
-            Pic:req.file.filename,
-            AddOn:new Date,
-            Status:"Not Assigned"
+    else {
+        const record = new Compmodel({
+            Userid: req.body.id,
+            Name: req.body.name,
+            Email: req.body.email,
+            Phone: req.body.phone,
+            Problem: req.body.problem,
+            Adress: req.body.adress,
+            Detail: req.body.msg,
+            Pic: req.file.filename,
+            AddOn: new Date,
+            Status: "Not Assigned",
+            Assignedto: " ",
+            Messageadmin: " "
+
         })
-        const result= await record.save()
+        const result = await record.save()
         console.log(result)
-        if(result){
-            res.send({statuscode:1})
+        if (result) {
+            res.send({ statuscode: 1 })
         }
-        else{
-            res.send({statuscode:0})
+        else {
+            res.send({ statuscode: 0 })
         }
     }
 })
@@ -174,41 +199,61 @@ app.post("/api/complaint",upload.single('pic'),async(req,res)=>{
 //complaint  get with userid  api
 
 
-app.get("/api/compget/:id",async(req,res)=>{
+app.get("/api/compget/:id", async (req, res) => {
 
-const result = await Compmodel.findOne({Userid:req.params.id})
+    const result = await Compmodel.findOne({ Userid: req.params.id })
 
-if(result){
-    res.send({statuscode:1,compdata:[result]})
-    console.log(result)
-}
-else{
-    res.send({statuscode:0})
-}
+    if (result) {
+        res.send({ statuscode: 1, compdata: [result] })
+        console.log(result)
+    }
+    else {
+        res.send({ statuscode: 0 })
+    }
 })
 
 
 //get all complaints admin
 
 
-app.get("/api/allcomp",async(req,res)=>{
+app.get("/api/allcomp", async (req, res) => {
     const result = await Compmodel.find()
-    if(result){
-        res.send({statuscode:1,compdata:result})
+    if (result) {
+        res.send({ statuscode: 1, compdata: result })
     }
-    else{
-        res.send({statuscode:0})
+    else {
+        res.send({ statuscode: 0 })
     }
 })
 
 //get detail of complaint
 
-app.get("/api/detail/:id",async(req,res)=>{
-    const result= await Compmodel.find({_id:req.params.id})
-    if(result){
-        res.send({statuscode:1})
+app.get("/api/detail/:id", async (req, res) => {
+    const result = await Compmodel.findById({ _id: req.params.id })
+    if (result) {
+        res.send({ statuscode: 1, comp: result })
     }
-    else{
-        res.send({statuscode:0})
+    else {
+        res.send({ statuscode: 0 })
+    }
+})
+
+
+//worker side comp
+
+app.put("/api/compupdate/:id", async (req, res) => {
+    const compup = await Compmodel.updateOne({ _id: req.params.id }, {
+        $set: {
+            Status: "Assigned to worker"
+             , Assignedto:req.body.assignedtoo,Messageadmin:req.body.message
+
+        }
+    })
+    if (compup) {
+        console.log(compup)
+        res.send({ statuscode: 1 })
+    }
+    else {
+        res.send({ statuscode: 0 })
     }
 })

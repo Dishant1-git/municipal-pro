@@ -8,6 +8,7 @@ export const Compadmin=()=>{
 
     useEffect(()=>{
         get()
+       
     },[])
 
 const get=async()=>{
@@ -23,6 +24,9 @@ const get=async()=>{
         }
     }
 }
+
+
+
 
     return(
         <>
