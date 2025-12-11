@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 
 export const Compadmin=()=>{
 
@@ -59,7 +60,9 @@ const get=async()=>{
 
 
                 {
-                    allcomp.map((a,index)=><div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                    allcomp.map((a,index)=>
+                        <Link to={`/detail?id=${a._id}`}>
+                    <div class="col-xl-12 col-md-12 col-sm-12 col-12">
                  
                     <div class="blog-single-post-listing" data-animation="fadeInUp" data-delay="0.2">
                         <div class="thumbnail">
@@ -87,11 +90,12 @@ const get=async()=>{
                             <p class="disc">
                                {a.Detail}
                             </p>
-                            <button class="rts-btn btn-primary" href="">Read Details</button>
+                            <button class="rts-btn btn-primary" >Read Details</button>
                         </div>
                     </div>
                    
                 </div>
+                </Link>
                     )
                 }
                 

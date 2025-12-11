@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 
 export const Signup=()=>{
 
@@ -6,6 +6,7 @@ const [name,setname]=useState("")
 const [email,setemail]=useState("")
 const [pass,setpass]=useState("")
 const [cpass,setcpass]=useState("")
+
 
 
 
@@ -94,7 +95,7 @@ if(res.ok){
                 </div>
                 <div class="col-lg-6">
                     <div class="contact-form-p new">
-                        <form     onSubmit={Signup}>
+                        <form    onSubmit={Signup}>
                             <h4 class="title">Get In Touch</h4>
                             <input name="name" id="name" type="text" placeholder="Your Name" onChange={(e)=>setname(e.target.value)}/>
                             <input type="email" name="email" id="email" placeholder="Johndoe@gmail.com" onChange={(e)=>setemail(e.target.value)}/>

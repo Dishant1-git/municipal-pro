@@ -18,7 +18,7 @@ const userslice=createSlice({
             state.Role=action.payload.role
             state.Email=action.payload.Email
         },
-        logout(state){
+        Logout(state){
             state.LoggedIn=false
             state.Name="Guest"
             state.Role=""
@@ -27,5 +27,5 @@ const userslice=createSlice({
     }
 })
 
-export const {login,logout}=userslice.actions
+export const {login,Logout}=userslice.actions
 export default userslice.reducer

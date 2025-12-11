@@ -82,7 +82,7 @@ export const Admin=()=>{
                                                             <div class="col-lg-4">
                                                                 <ul class="mega-menu-item parent-nav">
                                                                     <li>
-                                                                        <Link>
+                                                                        <Link to="Compshowadmin">
                                                                             <div class="single-service-menu">
                                                                                 <div class="icon">
                                                                                     <img src="assets/images/service/04.svg" alt="service"/>

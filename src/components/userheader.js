@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
-import { Link } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { Link, useNavigate } from "react-router-dom"
+import { Logout } from "../reducer/userslice"
 
 export const User=()=>{
 
@@ -10,12 +11,21 @@ export const User=()=>{
         return state.userslice
     })
 
+    const dispatch=useDispatch()
+    const navigate=useNavigate()
+
     useEffect(()=>{
         if(LoggedIn){
             setflag("true")
         }
     },[LoggedIn])
 
+
+const logout=()=>{
+    dispatch(Logout())
+    sessionStorage.clear()
+    setflag("false")
+}
 
     return(
         <>
@@ -364,7 +374,7 @@ export const User=()=>{
                                                     flag!=="true"?<><li><Link to="/login">Login</Link></li>
                                                 <li><Link to="/signup">Signup</Link></li>
                                                     </>:<>
-                                                        <li><Link>Logout</Link></li>
+                                                        <li><Link onClick={logout}>Logout</Link></li>
                                                     </>
                                                 }
                                                 

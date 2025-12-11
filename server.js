@@ -200,3 +200,15 @@ app.get("/api/allcomp",async(req,res)=>{
         res.send({statuscode:0})
     }
 })
+
+//get detail of complaint
+
+app.get("/api/detail/:id",async(req,res)=>{
+    const result= await Compmodel.find({_id:req.params.id})
+    if(result){
+        res.send({statuscode:1})
+    }
+    else{
+        res.send({statuscode:0})
+    }
+})
