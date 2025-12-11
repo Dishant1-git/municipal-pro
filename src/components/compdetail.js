@@ -66,10 +66,11 @@ export const Compdetail = () => {
     const Assign = async(e) => {
         e.preventDefault()
       const data={assignedtoo,message}
-const up= await fetch(`http://localhost:9000/api/compupdate/${idd}`,{method:"Put",
+const up= await fetch(`http://localhost:9000/api/compupdate/${idd}`,
+    {method:"Put",
     body:JSON.stringify(data),
-    Haeders:{
-        "contetent-type":"application/json;charset=UTF-8"
+    headers:{
+        "content-type":"application/json;charset=UTF-8"
     }
 })
 if(up.ok){

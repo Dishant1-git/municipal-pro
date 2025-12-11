@@ -245,7 +245,7 @@ app.put("/api/compupdate/:id", async (req, res) => {
     const compup = await Compmodel.updateOne({ _id: req.params.id }, {
         $set: {
             Status: "Assigned to worker"
-             , Assignedto:req.body.assignedtoo,Messageadmin:req.body.message
+             ,Messageadmin:req.body.message, Assignedto:req.body.assignedtoo
 
         }
     })
