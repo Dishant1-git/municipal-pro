@@ -1,6 +1,13 @@
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 export const Worker=()=>{
+    const [id,setid]=useState("")
+
+    useEffect(()=>{
+const data=JSON.parse(sessionStorage.getItem("info"))
+setid(data.id)
+    },[])
     return(
         <>
         <header class="header-one header--sticky">
@@ -49,102 +56,12 @@ export const Worker=()=>{
                             <div class="main-header">
                                 <div class="nav-area">
                                     <ul class="">
-                                        <li class="main-nav has-dropdown mega-menu project-a-after">
+                                        <li class="main-nav ">
                                             <a href="">Home</a>
                                            
                                         </li>
 
-                                        <li class="main-nav has-dropdown mega-menu">
-                                            <a href="#">Pages</a>
-                                            <div class="rts-mega-menu">
-                                                <div class="wrapper">
-                                                    <div class="container">
-                                                        <div class="row g-0">
-                                                            <div class="col-lg-3">
-                                                                <ul class="mega-menu-item with-list parent-nav">
-                                                                    <li><a href="about.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>About
-                                                                            Company</a></li>
-                                                                    <li><a href="service.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Service</a></li>
-                                                                    <li><a href="service-details.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Service Details</a>
-                                                                    </li>
-                                                                    <li><a href="service-details-2.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Service Details 2</a>
-                                                                    </li>
-                                                                    <li><a href="project.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Project</a>
-                                                                    </li>
-                                                                    <li><a href="team.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Team</a>
-                                                                    </li>
-                                                                    <li><a href="gallery.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Gallery</a>
-                                                                    </li>
-                                                                    <li><a href="pricing-comparison.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Pricing Comparison <span class="new-badge">New</span></a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="col-lg-3">
-                                                                <ul class="mega-menu-item with-list parent-nav">
-                                                                    <li><a href="team-details.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Team Details</a>
-                                                                    </li>
-                                                                    <li><a href="pricing.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Pricing</a>
-                                                                    </li>
-                                                                    <li><a href="appoinment.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Appoinment</a>
-                                                                    </li>
-                                                                    <li><a href="history.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Our
-                                                                            History</a>
-                                                                    </li>
-                                                                    <li><a href="blog-list.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Blog
-                                                                            List</a>
-                                                                    </li>
-                                                                    <li><a href="blog-grid.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Blog
-                                                                            Grid</a>
-                                                                    </li>
-                                                                    <li><a href="contact.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>
-                                                                            Contact</a>
-                                                                    </li>
-                                                                    <li><a href="404.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>404</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="col-lg-3">
-                                                                <ul class="mega-menu-item with-list parent-nav">
-                                                                    <li><a href="blog-details.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Blog
-                                                                            Details</a>
-                                                                    </li>
-                                                                    <li><a href="blog-details-2.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Blog
-                                                                            Details 02</a>
-                                                                    </li>
-                                                                    <li><a href="faq.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Faq's</a></li>
-                                                                    <li><a href="career.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Career</a>
-                                                                    </li>
-                                                                    <li><a href="our-mission.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Our
-                                                                            Mission</a>
-                                                                    </li>
-                                                                    <li><a href="partners.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Partners</a>
-                                                                    </li>
-                                                                    <li><a href="contact-2.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Contact 2</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="col-lg-3">
-                                                                <ul class="mega-menu-item with-list parent-nav">
-
-                                                                    <li><a href="shop.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Shop</a>
-                                                                    </li>
-                                                                    <li><a href="shop-single.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Shop Details</a>
-                                                                    </li>
-                                                                    <li><a href="cart.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Cart</a>
-                                                                    </li>
-                                                                    <li><a href="chekout.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Checkout</a>
-                                                                    </li>
-                                                                    <li><a href="account.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Account</a>
-                                                                    </li>
-                                                                    <li><a href="coming-soon.html"><i class="fa-sharp fa-regular fa-chevron-right"></i>Coming Soon</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
+                                       
                                         <li class="main-nav has-dropdown mega-menu">
                                             <a href="#">Service</a>
                                             <div class="rts-mega-menu service-mega-menu-style">
@@ -154,19 +71,20 @@ export const Worker=()=>{
                                                             <div class="col-lg-4">
                                                                 <ul class="mega-menu-item parent-nav">
                                                                     <li>
-                                                                        <a href="service-details.html">
+                                                                        
+                                                                        <Link to={`/workjob?id=${id}`}>
                                                                             <div class="single-service-menu">
                                                                                 <div class="icon">
                                                                                     <img src="assets/images/service/04.svg" alt="service"/>
                                                                                 </div>
                                                                                 <div class="info">
-                                                                                    <h5 class="title">Business Solution</h5>
+                                                                                    <h5 class="title">My works</h5>
                                                                                     <p class="details">
                                                                                         Once planning is complete, site preparation begins.
                                                                                     </p>
                                                                                 </div>
                                                                             </div>
-                                                                        </a>
+                                                                        </Link>
                                                                     </li>
                                                                     <li>
                                                                         <a href="service-details-2.html">

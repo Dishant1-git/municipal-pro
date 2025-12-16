@@ -201,10 +201,10 @@ app.post("/api/complaint", upload.single('pic'), async (req, res) => {
 
 app.get("/api/compget/:id", async (req, res) => {
 
-    const result = await Compmodel.findOne({ Userid: req.params.id })
+    const result = await Compmodel.find({ Userid: req.params.id })
 
     if (result) {
-        res.send({ statuscode: 1, compdata: [result] })
+        res.send({ statuscode: 1, compdata: result })
         console.log(result)
     }
     else {
@@ -256,4 +256,13 @@ app.put("/api/compupdate/:id", async (req, res) => {
     else {
         res.send({ statuscode: 0 })
     }
+})
+
+app.get("/api/compwork/:id",async(req,res)=>{
+const findWork= await Compmodel.find({Assignedto:req.params.id})
+if(findWork){
+    res.send({statuscode:1,comp:findWork})
+}else{
+    res.send({statuscode:0})
+}
 })

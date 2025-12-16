@@ -6,6 +6,8 @@ import { Postcom } from "./postcomplaint"
 import { Usercomp } from "./showcomp"
 import { Compadmin } from "./compadmin"
 import { Compdetail } from "./compdetail"
+import { Compassigned } from "./compassigned"
+import { Compwoker } from "./workcomp"
 
 export const Routee=()=>{
     return(
@@ -18,6 +20,8 @@ export const Routee=()=>{
            <Route path="/Compshow" element={<Usercomp/>}/>
            <Route path="/Compshowadmin" element={<Compadmin/>}/>
            <Route path="/detail" element={<Compdetail/>}/>
+           <Route path="/workjob" element={<Compassigned/>}/>
+           <Route path="/detailwork" element={<Compwoker/>}/>
         </Routes>
         </>
     )

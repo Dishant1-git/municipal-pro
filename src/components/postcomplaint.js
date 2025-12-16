@@ -32,7 +32,7 @@ return state.userslice
            
 navigate("/login")
         }
-    },[])
+    },[LoggedIn])
 
 const submitt= async(e)=>{
     e.preventDefault()
