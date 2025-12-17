@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { useSearchParams } from "react-router-dom"
 
 export const Compwoker = () => {
-    const [status, setstatus] = useState()
+    const [status, setstatus] = useState("")
     const [name, setname] = useState("")
     const [addon, setaddon] = useState("")
     const [pro, setpro] = useState("")
@@ -48,8 +48,8 @@ export const Compwoker = () => {
    
     const Assign = async(e) => {
         e.preventDefault()
-      const data={assignedtoo,message}
-const up= await fetch(`http://localhost:9000/api/compupdate/${idd}`,
+      const data={status,message}
+const up= await fetch(`http://localhost:9000/api/compupworker/${idd}`,
     {method:"Put",
     body:JSON.stringify(data),
     headers:{
@@ -119,8 +119,8 @@ if(up.ok){
                                             <form onSubmit={Assign} >
                                                 <div class="row g-4">
                                                     <div class="col-lg-6">
-                                                        Assigned work    <select onChange={(e) => setstatus(e.target.value)}>
-                                                            <option value={"null"}>Assigned to</option>
+                                                        Update Status   <select onChange={(e) => setstatus(e.target.value)}>
+                                                            <option value={"null"}>Select Status</option>
                                                           
                                                                     <option value={"completed"}>completed</option>
                                                                     <option value={"camceled"}>cancel</option>

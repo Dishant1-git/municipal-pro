@@ -154,7 +154,8 @@ const Complaintschema = new mongoose.Schema({
     AddOn: String,
     Status: String,
     Assignedto: String,
-    Messageadmin: String
+    Messageadmin: String,
+      Completedon:String
 }, { versionKey: false })
 
 
@@ -179,7 +180,8 @@ app.post("/api/complaint", upload.single('pic'), async (req, res) => {
             AddOn: new Date,
             Status: "Not Assigned",
             Assignedto: " ",
-            Messageadmin: " "
+            Messageadmin: " ",
+            Completedon:""
 
         })
         const result = await record.save()
@@ -239,13 +241,13 @@ app.get("/api/detail/:id", async (req, res) => {
 })
 
 
-//worker side comp
+//assign to worker side comp
 
 app.put("/api/compupdate/:id", async (req, res) => {
     const compup = await Compmodel.updateOne({ _id: req.params.id }, {
         $set: {
             Status: "Assigned to worker"
-             ,Messageadmin:req.body.message, Assignedto:req.body.assignedtoo
+             ,Messageadmin:req.body.message,Assignedto:req.body.assignedtoo 
 
         }
     })
@@ -258,6 +260,32 @@ app.put("/api/compupdate/:id", async (req, res) => {
     }
 })
 
+
+
+// update by worker
+app.put("/api/compupworker/:id", async (req, res) => {
+    const compup = await Compmodel.updateOne({ _id: req.params.id }, {
+        $set: {
+            Status: "Assigned to worker"
+             ,Messageadmin:req.body.message,Status:req.body.status ,Completedon:new Date()
+
+        }
+    })
+  
+    if (compup) {
+      
+        res.send({ statuscode: 1,newdata:compup })
+    }
+    else {
+        res.send({ statuscode: 0 })
+    }
+})
+
+
+
+
+
+//worker gets their work 
 app.get("/api/compwork/:id",async(req,res)=>{
 const findWork= await Compmodel.find({Assignedto:req.params.id})
 if(findWork){
