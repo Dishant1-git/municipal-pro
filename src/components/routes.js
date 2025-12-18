@@ -8,6 +8,9 @@ import { Compadmin } from "./compadmin"
 import { Compdetail } from "./compdetail"
 import { Compassigned } from "./compassigned"
 import { Compwoker } from "./workcomp"
+import { Notassigned } from "./notassigned"
+import { Assigned } from "./assignedwork"
+import { Completed } from "./completed"
 
 export const Routee=()=>{
     return(
@@ -22,6 +25,9 @@ export const Routee=()=>{
            <Route path="/detail" element={<Compdetail/>}/>
            <Route path="/workjob" element={<Compassigned/>}/>
            <Route path="/detailwork" element={<Compwoker/>}/>
+           <Route path="/notassign" element={<Notassigned/>}/>
+           <Route path="/assigned" element={<Assigned/>}/>
+           <Route path="/completed-work" element={<Completed/>}/>
         </Routes>
         </>
     )

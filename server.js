@@ -178,7 +178,7 @@ app.post("/api/complaint", upload.single('pic'), async (req, res) => {
             Detail: req.body.msg,
             Pic: req.file.filename,
             AddOn: new Date,
-            Status: "Not Assigned",
+            Status: "Processed",
             Assignedto: " ",
             Messageadmin: " ",
             Completedon:""
@@ -293,4 +293,34 @@ if(findWork){
 }else{
     res.send({statuscode:0})
 }
+})
+
+
+//all assigned work 
+
+app.get("/api/assignwork",async(req,res)=>{
+    const findwork=await Compmodel.find({Status:"Assigned to worker"})
+  
+    if(findwork){
+         
+        res.send({statuscode:1,data:findwork})
+    }
+    else{
+        res.send({statuscode:0})
+    }
+})
+
+
+//all completed work 
+
+app.get("/api/completed",async(req,res)=>{
+    const findwork=await Compmodel.find({Status:"completed"})
+  
+    if(findwork){
+         
+        res.send({statuscode:1,data:findwork})
+    }
+    else{
+        res.send({statuscode:0})
+    }
 })
