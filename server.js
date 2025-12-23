@@ -68,7 +68,7 @@ app.post("/api/signup", async (req, res) => {
 })
 
 
-//find woekers
+//find workers
 
 
 app.get("/api/workers", async (req, res) => {
