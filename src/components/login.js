@@ -26,13 +26,14 @@ const res= await fetch("http://localhost:9000/api/login",{
 })
 if(res.ok){
     const result=await res.json()
+    console.log(result)
     if(result.statuscode==1){
     
         alert("registered successfully")
 
         if(result.role.role=="admin"){
             alert("welcome admin")
-
+            //can you console.log this data once
             dispatch(login({userdata:result.memberdata,role:result.role.role}))
             sessionStorage.setItem("info",JSON.stringify(result.memberdata))
             sessionStorage.setItem("token",JSON.stringify(result.authtoken))
