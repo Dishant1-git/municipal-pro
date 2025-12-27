@@ -1,0 +1,45 @@
+CHANGES — summary of fixes
+
+Date: 2025-12-25
+
+1) src/components/login.js
+   - Normalized the payload sent to the Redux `login` reducer to: { name, role, Email }
+   - (REVERTED) Previously the change stored role in sessionStorage. That behavior has been reverted per your request.
+
+Why: Previously the `login` dispatch used inconsistent payload shapes (sometimes nested as { userdata, role }), and `sessionStorage.info` only contained the member data (without role). On refresh the app couldn't reliably restore the user's role, causing incorrect header rendering. Persisting the normalized payload fixes role restoration on refresh.
+
+Files changed:
+ - src/components/login.js
+ - src/App.js
+
+Next steps (manual):
+ - Verify in the browser: login as admin/worker/user, refresh the page and confirm the correct header is shown.
+ - If any issues remain, we may also make `userslice.login` more defensive in parsing payload shapes.
+
+Author: GitHub Copilot (Raptor mini - Preview)
+
+2) server.js & Security
+   - **Environment Variables:** Created `.env` (added to `.gitignore`) and removed secrets from source code.
+   - **Database Connection:** Updated to use `process.env.Mongoose_url`.
+   - **CORS:** Whitelisted origins (localhost:3000, localhost:9000) instead of allowing all.
+   - **Headers:** Added `helmet` for security headers.
+   - **Rate Limiting:** Added `express-rate-limit` (100 req/15min).
+   - **Input Validation:** Added `express-validator` to `/api/signup` and `/api/login` to validate email and password formats.
+
+Why: To address critical security vulnerabilities identified in `audit.md` including hardcoded secrets, open CORS policy, missing security headers, and lack of input validation.
+
+Files changed:
+ - server.js
+ - .env
+ - .gitignore
+ - package.json
+
+3) App.js & server.js (Role Restoration)
+   - **Backend:** Added `/api/getuser/:id` endpoint to retrieve user role and email by ID.
+   - **Frontend:** Updated `App.js` to fetch the user's role from the new endpoint during initialization (page reload) using the ID stored in `sessionStorage`.
+
+Why: To ensure the correct user role (and thus the correct header) is restored when the page is reloaded, as `sessionStorage` only contained the user ID and name.
+
+Files changed:
+ - server.js
+ - src/App.js

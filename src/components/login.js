@@ -31,20 +31,23 @@ if(res.ok){
     
         alert("registered successfully")
 
-        if(result.role.role=="admin"){
+        const decodedToken = JSON.parse(atob(result.authtoken.split('.')[1]));
+        const userRole = decodedToken.role;
+
+        if(userRole=="admin"){
             alert("welcome admin")
             //can you console.log this data once
-            dispatch(login({userdata:result.memberdata,role:result.role.role}))
+            dispatch(login({userdata:result.memberdata,role:userRole}))
             sessionStorage.setItem("info",JSON.stringify(result.memberdata))
             sessionStorage.setItem("token",JSON.stringify(result.authtoken))
             navigate("/")
            
         }
-        else if(result.role.role=="worker"){
+        else if(userRole=="worker"){
             alert("welcome worker")
               navigate("/")
            
-            dispatch(login({userdata:result.memberdata,role:result.role.role}))
+            dispatch(login({userdata:result.memberdata,role:userRole}))
             sessionStorage.setItem("info",JSON.stringify(result.memberdata))
             sessionStorage.setItem("token",JSON.stringify(result.authtoken)) 
 
@@ -53,8 +56,7 @@ if(res.ok){
             alert("welcome user")
                navigate("/")
            
-            dispatch(login({userdata:result.memberdata,role:result.role.role}))
-            dispatch(login(result.memberdata))
+            dispatch(login({userdata:result.memberdata,role:userRole}))
             sessionStorage.setItem("info",JSON.stringify(result.memberdata))
             sessionStorage.setItem("token",JSON.stringify(result.authtoken))
         }

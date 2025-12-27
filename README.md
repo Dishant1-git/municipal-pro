@@ -68,3 +68,42 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+
+
+  useEffect(() => {
+    const tokenRaw = sessionStorage.getItem("token")
+    if (tokenRaw) {
+      const token = JSON.parse(tokenRaw)
+      fetch("http://localhost:9000/api/me", {
+        headers: { Authorization: "Bearer " + token }
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          if (result.statuscode === 1) {
+            const payload = { name: result.memberdata.name || result.memberdata.Name || "Guest", role: result.role || "user", Email: result.memberdata.Email || "" }
+            dispatch(login(payload))
+          } else {
+            // fallback to stored non-sensitive user info (without role)
+            if (sessionStorage.getItem("info")) {
+              const info = JSON.parse(sessionStorage.getItem("info"))
+              const payload = { name: info.name || info.Name || "Guest", role: "user", Email: info.Email || "" }
+              dispatch(login(payload))
+            }
+          }
+        })
+        .catch(() => {
+          if (sessionStorage.getItem("info")) {
+            const info = JSON.parse(sessionStorage.getItem("info"))
+            const payload = { name: info.name || info.Name || "Guest", role: "user", Email: info.Email || "" }
+            dispatch(login(payload))
+          }
+        })
+    } else if (sessionStorage.getItem("info")) {
+      const info = JSON.parse(sessionStorage.getItem("info"))
+      const payload = { name: info.name || info.Name || "Guest", role: "user", Email: info.Email || "" }
+      dispatch(login(payload))
+    }
+  }, [])

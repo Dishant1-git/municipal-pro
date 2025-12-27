@@ -5,9 +5,31 @@ const cors = require('cors')
 const jwt = require('jsonwebtoken')
 const bcrypt = require("bcrypt")
 const multer = require("multer")
+const helmet = require("helmet")
+const rateLimit = require("express-rate-limit")
+const { body, validationResult } = require('express-validator')
+
+app.use(helmet())
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100 // limit each IP to 100 requests per windowMs
+});
+app.use(limiter)
+
+const whitelist = ['http://localhost:3000', 'http://localhost:9000']; 
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (whitelist.indexOf(origin) !== -1 || !origin) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    }
+}
+app.use(cors(corsOptions))
 
 app.use(express.json())
-app.use(cors())
 
 require('dotenv').config();
 
@@ -23,7 +45,7 @@ app.listen(Port, () => {
     console.log("server is running on port 9000")
 })
 
-mongoose.connect("mongodb://127.0.0.1:27017/municipal")
+mongoose.connect(process.env.Mongoose_url)
     .then(() =>
         console.log("connected to mongodb")
     )
@@ -46,7 +68,16 @@ const registerSchema = new mongoose.Schema({
 const Registermodel = mongoose.model("Signup", registerSchema)
 
 
-app.post("/api/signup", async (req, res) => {
+app.post("/api/signup", [
+    body('email').isEmail().normalizeEmail(),
+    body('pass').isLength({ min: 5 }),
+    body('name').trim().notEmpty()
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     const finduser = await Registermodel.findOne({ Email: req.body.email })
 
     if (finduser) {
@@ -69,8 +100,6 @@ app.post("/api/signup", async (req, res) => {
 
 
 //find workers
-
-
 app.get("/api/workers", async (req, res) => {
     const all = await Registermodel.find({ Isactive: true, Role: "worker" })
 
@@ -87,8 +116,16 @@ app.get("/api/workers", async (req, res) => {
     }
 })
 
-///login api
-app.post("/api/login", async (req, res) => {
+//login api
+app.post("/api/login", [
+    body('email').isEmail().normalizeEmail(),
+    body('pass').exists()
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     const find = await Registermodel.findOne({ Email: req.body.email })
     console.log(find)
 
@@ -109,7 +146,7 @@ app.post("/api/login", async (req, res) => {
 
         if (bypass === true) {
             console.log("role is", role)
-            let token = jwt.sign({ data: find._id, }, "&%*@!*67gy8@gyu*%@gvhqkjjnnj12jj@la", { expiresIn: "1h" })
+            let token = jwt.sign({ data: find._id, role: find.Role }, key, { expiresIn: "1h" })
             res.send({
                 statuscode: 1, memberdata: user
                 , authtoken: token, role: role
@@ -200,8 +237,6 @@ app.post("/api/complaint", upload.single('pic'), async (req, res) => {
 
 
 //complaint  get with userid  api
-
-
 app.get("/api/compget/:id", async (req, res) => {
 
     const result = await Compmodel.find({ Userid: req.params.id })
@@ -217,8 +252,6 @@ app.get("/api/compget/:id", async (req, res) => {
 
 
 //get all complaints admin
-
-
 app.get("/api/allcomp", async (req, res) => {
     const result = await Compmodel.find()
     if (result) {
@@ -230,7 +263,6 @@ app.get("/api/allcomp", async (req, res) => {
 })
 
 //get detail of complaint
-
 app.get("/api/detail/:id", async (req, res) => {
     const result = await Compmodel.findById({ _id: req.params.id })
     if (result) {
@@ -243,7 +275,6 @@ app.get("/api/detail/:id", async (req, res) => {
 
 
 //assign to worker side comp
-
 app.put("/api/compupdate/:id", async (req, res) => {
     const compup = await Compmodel.updateOne({ _id: req.params.id }, {
         $set: {

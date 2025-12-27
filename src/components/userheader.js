@@ -12,7 +12,7 @@ export const User=()=>{
     })
 
     const dispatch=useDispatch()
-    const navigate=useNavigate()
+   
 
     useEffect(()=>{
         if(LoggedIn){

@@ -37,16 +37,11 @@ function App() {
     }
   }, [Role])
 
-  // admin da password dsdo
-  //Admin@123
-  //  that means apka role ni set hora
-  //but then fr header kida change hunda?
+
   useEffect(() => {
     console.log("type is", Role)
   }, [Role])
-//mam 2 min
-  // role wala tareeka better h
-  // sidha role naal v same issue a
+
 
 
   const header = () => {
@@ -73,5 +68,3 @@ function App() {
 }
 
 export default App;
-// wooooow sir tu c deepseek v fail krta
-// ki logic a wah
