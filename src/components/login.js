@@ -39,8 +39,9 @@ if(res.ok){
             //can you console.log this data once
             dispatch(login({userdata:result.memberdata,role:userRole}))
             sessionStorage.setItem("info",JSON.stringify(result.memberdata))
-            sessionStorage.setItem("token",JSON.stringify(result.authtoken))
+           localStorage.setItem("token",result.authtoken)
             navigate("/")
+           
            
         }
         else if(userRole=="worker"){
@@ -49,7 +50,7 @@ if(res.ok){
            
             dispatch(login({userdata:result.memberdata,role:userRole}))
             sessionStorage.setItem("info",JSON.stringify(result.memberdata))
-            sessionStorage.setItem("token",JSON.stringify(result.authtoken)) 
+           localStorage.setItem("token",JSON.stringify(result.authtoken)) 
 
         }
         else{

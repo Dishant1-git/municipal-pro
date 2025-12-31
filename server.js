@@ -117,15 +117,8 @@ app.get("/api/workers", async (req, res) => {
 })
 
 //login api
-app.post("/api/login", [
-    body('email').isEmail().normalizeEmail(),
-    body('pass').exists()
-], async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-
+app.post("/api/login", async (req, res) => {
+   
     const find = await Registermodel.findOne({ Email: req.body.email })
     console.log(find)
 
