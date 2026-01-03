@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit"
 const State={
     LoggedIn:false,
     Name:"Guest",
-    Role:"",
+    Role:"user",
     Email:""
 }
 
@@ -21,7 +21,7 @@ const userslice=createSlice({
         Logout(state){
             state.LoggedIn=false
             state.Name="Guest"
-            state.Role=""
+            state.Role="user"
             state.Email=""
         }
     }

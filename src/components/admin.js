@@ -1,6 +1,31 @@
-import { Link } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
+import { Link, useNavigate } from "react-router-dom"
+import { Logout } from "../reducer/userslice"
 
 export const Admin=()=>{
+
+const dispatch=useDispatch()
+const navigate=useNavigate()
+
+    const [flag,setflag]=useState(false)
+    useEffect(()=>{
+        const token=localStorage.getItem("token")
+        if(token){
+setflag(true)
+        }else{
+            setflag(false)
+        }
+    },[])
+
+    const logout=()=>{
+        localStorage.removeItem("token")
+        sessionStorage.removeItem("info")
+        setflag(false)
+        dispatch(Logout())
+        navigate("/")
+      
+    }
     return(
         <>
         <header class="header-one header--sticky">
@@ -50,7 +75,7 @@ export const Admin=()=>{
                                 <div class="nav-area">
                                     <ul class="">
                                         <li class="main-nav ">
-                                            <a href="">Home</a>
+                                            <Link to="/admin-dashboard">Dashboard</Link>
                                            
                                         </li>
 
@@ -284,9 +309,13 @@ export const Admin=()=>{
                                         <li class="main-nav has-dropdown project-a-after">
                                             <a href="#">Login</a>
                                             <ul class="submenu parent-nav">
-                                                <li>  <Link to="/signup">Signup</Link></li>
-                                                <li><Link to="/Login">Loginp</Link></li>
-                                                <li><a >Logout</a></li>
+
+                                                {
+                                                    flag===true? <li><Link to="/" onClick={logout} >Logout</Link></li>:<><li>  <Link to="/signup">Signup</Link></li>
+                                                <li><Link to="/Login">Login</Link></li></>
+                                                }
+                                                
+                                               
                                                 
                                             </ul>
                                         </li>

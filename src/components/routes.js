@@ -11,6 +11,7 @@ import { Compwoker } from "./workcomp"
 import { Notassigned } from "./notassigned"
 import { Assigned } from "./assignedwork"
 import { Completed } from "./completed"
+import { AdminPage } from "./adminpage"
 
 export const Routee=()=>{
     return(
@@ -28,6 +29,7 @@ export const Routee=()=>{
            <Route path="/notassign" element={<Notassigned/>}/>
            <Route path="/assigned" element={<Assigned/>}/>
            <Route path="/completed-work" element={<Completed/>}/>
+           <Route path="/admin-dashboard" element={<AdminPage/>}/>
         </Routes>
         </>
     )

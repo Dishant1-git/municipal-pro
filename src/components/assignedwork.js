@@ -12,8 +12,12 @@ export const Assigned=()=>{
     },[])
 
 const get=async()=>{
+    const token = localStorage.getItem("token");
     const result= await fetch("http://localhost:9000/api/assignwork",{
-        method:"get"
+        method:"get",
+        headers: {
+            "Authorization": token
+        }
     })
 
     if(result.ok){

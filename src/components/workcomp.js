@@ -25,8 +25,12 @@ export const Compwoker = () => {
 
 
     const show = async () => {
+        const token = localStorage.getItem("token");
         const result = await fetch(`http://localhost:9000/api/detail/${idd}`, {
-            method: "Get"
+            method: "Get",
+            headers: {
+                "Authorization": token
+            }
         })
         if (result.ok) {
             const res = await result.json()
@@ -49,11 +53,13 @@ export const Compwoker = () => {
     const Assign = async(e) => {
         e.preventDefault()
       const data={status,message}
+      const token = localStorage.getItem("token");
 const up= await fetch(`http://localhost:9000/api/compupworker/${idd}`,
     {method:"Put",
     body:JSON.stringify(data),
     headers:{
-        "content-type":"application/json;charset=UTF-8"
+        "content-type":"application/json;charset=UTF-8",
+        "Authorization": token
     }
 })
 if(up.ok){

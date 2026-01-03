@@ -42,9 +42,12 @@ return state.userslice
 
 
     const show = async () => {
-
+        const token = localStorage.getItem("token");
         const res = await fetch(`http://localhost:9000/api/compget/${id}`, {
-            method: "Get"
+            method: "Get",
+            headers: {
+                "Authorization": token
+            }
         })
         if (res.ok) {
             const data = await res.json()

@@ -59,7 +59,7 @@ if(res.ok){
            
             dispatch(login({userdata:result.memberdata,role:userRole}))
             sessionStorage.setItem("info",JSON.stringify(result.memberdata))
-            sessionStorage.setItem("token",JSON.stringify(result.authtoken))
+         localStorage.setItem("token",JSON.stringify(result.authtoken))
         }
     }
     else if(result.statuscode==2) {

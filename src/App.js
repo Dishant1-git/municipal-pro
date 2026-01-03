@@ -17,16 +17,7 @@ function App() {
     return state.userslice
   })
   const dispatch = useDispatch()
-  useEffect(() => {
-    if (sessionStorage.getItem("info") !== null&& localStorage.getItem("token")!==null) {
-      const userdata = (JSON.parse(sessionStorage.getItem("info")))
-const token=localStorage.getItem("token")
-const decode=JSON.parse(atob(token.split('.')[1]))
-const role=decode.role
 
-      dispatch(login(userdata,role))
-    }
-  }, [])
   useEffect(() => {
   // Get token from localStorage (where it actually is)
     const token = localStorage.getItem("token");
@@ -61,6 +52,14 @@ const role=decode.role
           
           const decoded = JSON.parse(decodedStr);
           console.log("Decoded token:", decoded);
+
+          // Check if token is expired
+          if (decoded.exp && decoded.exp < Date.now() / 1000) {
+            console.warn("Token expired. Logging out.");
+            localStorage.removeItem("token");
+            sessionStorage.removeItem("info");
+            return; 
+          }
           
           const role = decoded.role;
           console.log("Extracted role:", role);
@@ -72,7 +71,7 @@ const role=decode.role
             Email: userdata.email || "user@example.com"  // Add fallback if no email
           }));
           
-          console.log("Login dispatched with role:", role);
+       
         } else {
           console.error("Invalid token format");
         }

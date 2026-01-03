@@ -27,8 +27,12 @@ export const Compdetail = () => {
 
 
     const show = async () => {
+        const token = localStorage.getItem("token");
         const result = await fetch(`http://localhost:9000/api/detail/${idd}`, {
-            method: "Get"
+            method: "Get",
+            headers: {
+                "Authorization": token
+            }
         })
         if (result.ok) {
             const res = await result.json()
@@ -48,8 +52,12 @@ export const Compdetail = () => {
     }
 
     const workers = async () => {
+        const token = localStorage.getItem("token");
         const all = await fetch("http://localhost:9000/api/workers", {
-            method: "Get"
+            method: "Get",
+            headers: {
+                "Authorization": token
+            }
         })
 
         if (all.ok) {
@@ -66,11 +74,13 @@ export const Compdetail = () => {
     const Assign = async(e) => {
         e.preventDefault()
       const data={assignedtoo,message}
+      const token = localStorage.getItem("token");
 const up= await fetch(`http://localhost:9000/api/compupdate/${idd}`,
     {method:"Put",
     body:JSON.stringify(data),
     headers:{
-        "content-type":"application/json;charset=UTF-8"
+        "content-type":"application/json;charset=UTF-8",
+        "Authorization": token
     }
 })
 if(up.ok){

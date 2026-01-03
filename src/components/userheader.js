@@ -24,6 +24,7 @@ export const User=()=>{
 const logout=()=>{
     dispatch(Logout())
     sessionStorage.clear()
+    localStorage.clear()
     setflag("false")
 }
 
