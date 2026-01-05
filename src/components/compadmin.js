@@ -12,12 +12,8 @@ export const Compadmin=()=>{
     },[])
 
 const get=async()=>{
-    const token = localStorage.getItem("token");
     const result= await fetch("http://localhost:9000/api/allcomp",{
-        method:"get",
-        headers:{
-            "Authorization": token
-        }
+        method:"get"
     })
 
     if(result.ok){

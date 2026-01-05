@@ -37,60 +37,18 @@
 *   **Environment Variables:**
     *   `src/.env` is located in `src/` but `dotenv` in `server.js` usually looks in the root. The backend might not be loading these variables correctly as currently configured.
 
-## 6. JWT Security & Token Expiry 🔐
+## 5. Specific File Issues 📝
 
-*   **Token Expiration Issue:**
-    *   The backend currently issues tokens with `expiresIn: "1h"`, but the application lacks a mechanism to **verify** these tokens on subsequent requests.
-    *   **The Problem:** Even if a token "expires" mathematically (the `exp` claim in the payload is in the past), it only matters if the backend actually checks that claim using `jwt.verify()`. Currently, the backend only checks if the user is in the database or if the password matches during login, but it doesn't protect other routes (like `/api/allcomp` or `/api/complaint`) with a JWT verification middleware.
-    *   **Frontend Issue:** The frontend stores the token in `localStorage` but never checks if it has expired before allowing access to protected views.
-
-### Recommended Solution: Implementation of Auth Middleware
-
-**1. Backend Implementation (server.js):**
-Create a middleware function to protect your routes.
-
-```javascript
-const verifyToken = (req, res, next) => {
-    const token = req.headers['authorization']; // Or however you send the token
-    if (!token) return res.status(403).send({ statuscode: 0, message: "No token provided" });
-
-    jwt.verify(token, key, (err, decoded) => {
-        if (err) {
-            // This is where the 1h expiration is actually enforced
-            return res.status(401).send({ statuscode: 3, message: "Token expired or invalid" });
-        }
-        req.userId = decoded.data;
-        req.userRole = decoded.role;
-        next();
-    });
-};
-
-// Use it on protected routes:
-app.get("/api/allcomp", verifyToken, async (req, res) => { ... });
-```
-
-**2. Frontend Implementation (App.js/Redux):**
-When the app loads or before sensitive actions, check the `exp` claim of the token.
-
-```javascript
-// In App.js useEffect or a dedicated Auth wrapper
-const token = localStorage.getItem("token");
-if (token) {
-    const decoded = JSON.parse(atob(token.split('.')[1]));
-    if (decoded.exp * 1000 < Date.now()) {
-        // Token has expired
-        localStorage.removeItem("token");
-        dispatch(Logout());
-        navigate("/login");
-    }
-}
-```
+*   **`src/components/postcomplaint.js`:**
+    *   File input handling needs safety checks. If a user opens the file picker and cancels, accessing `e.target.files[0]` might throw an error or be undefined.
+*   **`server.js`:**
+    *   Uploads are stored in `public/uploads`. Ensure this directory exists or is created programmatically, otherwise uploads will fail.
+    *   Use of `var` or mixed `const`/`let` usage should be standardized (prefer `const`/`let`).
 
 ## Action Plan
 
 1.  **Immediate:** Add `.env` to `.gitignore`. Move secrets to `.env` and remove them from code. (Completed)
 2.  **Security:** Fix vulnerabilities including Hardcoded Secrets, Database Connection strings, CORS, Input Validation, Security Headers, and Rate Limiting. (Completed)
-3.  **JWT Fix:** Implement `verifyToken` middleware on the backend and apply it to all admin/worker routes. Add expiration checks on the frontend.
-4.  **Refactor:** Split `server.js` into routes/controllers/models.
-5.  **Fix:** update frontend to use environment variables for API URL.
-6.  **UX:** Replace `alert()` with a better notification system.
+3.  **Refactor:** Split `server.js` into routes/controllers/models.
+4.  **Fix:** update frontend to use environment variables for API URL.
+5.  **UX:** Replace `alert()` with a better notification system.

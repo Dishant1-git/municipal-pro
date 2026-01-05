@@ -13,7 +13,7 @@ import { Worker } from './components/workerh';
 function App() {
   const [type, settype] = useState()
 
-  const { LoggedIn, Role } = useSelector((state) => {
+  const { LoggedIn, Role ,Logout} = useSelector((state) => {
     return state.userslice
   })
   const dispatch = useDispatch()
@@ -31,12 +31,12 @@ function App() {
     if (token && info) {
       try {
         const userdata = JSON.parse(info);
-        console.log("User data:", userdata);
+    
         
         // Decode the token - FIXED VERSION
         // Token format: header.payload.signature
         const parts = token.split('.');
-        console.log("Token parts:", parts.length);
+      
         
         if (parts.length === 3) {
           // Decode the middle part (payload)
@@ -48,21 +48,24 @@ function App() {
           
           // Decode
           const decodedStr = atob(base64);
-          console.log("Decoded string:", decodedStr);
+          
           
           const decoded = JSON.parse(decodedStr);
+          
           console.log("Decoded token:", decoded);
-
-          // Check if token is expired
-          if (decoded.exp && decoded.exp < Date.now() / 1000) {
+         if (decoded.exp && decoded.exp < Date.now() / 1000) {
             console.warn("Token expired. Logging out.");
             localStorage.removeItem("token");
             sessionStorage.removeItem("info");
+            alert("logged out")
+            window.location.reload()
+            dispatch(Logout());
             return; 
           }
+       
           
           const role = decoded.role;
-          console.log("Extracted role:", role);
+       
           
           // Dispatch with the role from token
           dispatch(login({
@@ -81,7 +84,7 @@ function App() {
     } else {
       console.log("No token or info found for auto-login");
     }
-}, []);
+}, [LoggedIn]);
 
 
   useEffect(() => {
@@ -97,9 +100,6 @@ function App() {
   }, [Role])
 
 
-  useEffect(() => {
-    console.log("type is", Role)
-  }, [Role])
 
 
 

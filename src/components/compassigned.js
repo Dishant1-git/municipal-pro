@@ -28,12 +28,8 @@ export const Compassigned = () => {
 
 
     const get = async () => {
-        const token = localStorage.getItem("token");
         const result = await fetch(`http://localhost:9000/api/compwork/${id}`, {
-            method: "get",
-            headers: {
-                "Authorization": token
-            }
+            method: "get"
         })
 
         if (result.ok) {

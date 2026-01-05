@@ -26,12 +26,7 @@ export const AdminPage = () => {
         }else{
               const fetchStats = async () => {
             try {
-                const token = localStorage.getItem("token");
-                const res = await fetch("http://localhost:9000/api/allcomp", {
-                    headers: {
-                        "Authorization": token
-                    }
-                });
+                const res = await fetch("http://localhost:9000/api/allcomp");
                 const result = await res.json();
                 if (result.statuscode === 1) {
                     const data = result.compdata;

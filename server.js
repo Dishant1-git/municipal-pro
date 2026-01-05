@@ -56,23 +56,6 @@ mongoose.connect(process.env.Mongoose_url)
 
 
 
-// Middleware for JWT verification
-const verifyToken = (req, res, next) => {
-    const token = req.headers['authorization'];
-    if (!token) {
-        return res.status(403).send({ statuscode: 0, message: "No token provided" });
-    }
-
-    jwt.verify(token, key, (err, decoded) => {
-        if (err) {
-            return res.status(401).send({ statuscode: 3, message: "Token expired or invalid" });
-        }
-        req.userId = decoded.data;
-        req.userRole = decoded.role;
-        next();
-    });
-};
-
 //register schema model and api
 const registerSchema = new mongoose.Schema({
     Name: String,
@@ -117,7 +100,7 @@ app.post("/api/signup", [
 
 
 //find workers
-app.get("/api/workers", verifyToken, async (req, res) => {
+app.get("/api/workers", async (req, res) => {
     const all = await Registermodel.find({ Isactive: true, Role: "worker" })
 
     if (all) {
@@ -156,7 +139,7 @@ app.post("/api/login", async (req, res) => {
 
         if (bypass === true) {
             console.log("role is", role)
-            let token = jwt.sign({ data: find._id, role: find.Role }, key, { expiresIn: "1h" })
+            let token = jwt.sign({ data: find._id, role: find.Role }, key, { expiresIn: "10s" })
             res.send({
                 statuscode: 1, memberdata: user
                 , authtoken: token, role: role
@@ -247,7 +230,7 @@ app.post("/api/complaint", upload.single('pic'), async (req, res) => {
 
 
 //complaint  get with userid  api
-app.get("/api/compget/:id", verifyToken, async (req, res) => {
+app.get("/api/compget/:id", async (req, res) => {
 
     const result = await Compmodel.find({ Userid: req.params.id })
 
@@ -262,7 +245,7 @@ app.get("/api/compget/:id", verifyToken, async (req, res) => {
 
 
 //get all complaints admin
-app.get("/api/allcomp", verifyToken, async (req, res) => {
+app.get("/api/allcomp", async (req, res) => {
     const result = await Compmodel.find()
     if (result) {
         res.send({ statuscode: 1, compdata: result })
@@ -273,7 +256,7 @@ app.get("/api/allcomp", verifyToken, async (req, res) => {
 })
 
 //get detail of complaint
-app.get("/api/detail/:id", verifyToken, async (req, res) => {
+app.get("/api/detail/:id", async (req, res) => {
     const result = await Compmodel.findById({ _id: req.params.id })
     if (result) {
         res.send({ statuscode: 1, comp: result })
@@ -285,7 +268,7 @@ app.get("/api/detail/:id", verifyToken, async (req, res) => {
 
 
 //assign to worker side comp
-app.put("/api/compupdate/:id", verifyToken, async (req, res) => {
+app.put("/api/compupdate/:id", async (req, res) => {
     const compup = await Compmodel.updateOne({ _id: req.params.id }, {
         $set: {
             Status: "Assigned to worker"
@@ -305,7 +288,7 @@ app.put("/api/compupdate/:id", verifyToken, async (req, res) => {
 
 
 // update by worker
-app.put("/api/compupworker/:id", verifyToken, async (req, res) => {
+app.put("/api/compupworker/:id", async (req, res) => {
     const compup = await Compmodel.updateOne({ _id: req.params.id }, {
         $set: {
             Status: "Assigned to worker"
@@ -328,7 +311,7 @@ app.put("/api/compupworker/:id", verifyToken, async (req, res) => {
 
 
 //worker gets their work 
-app.get("/api/compwork/:id", verifyToken, async(req,res)=>{
+app.get("/api/compwork/:id", async(req,res)=>{
 const findWork= await Compmodel.find({Assignedto:req.params.id})
 if(findWork){
     res.send({statuscode:1,comp:findWork})
@@ -340,7 +323,7 @@ if(findWork){
 
 //all assigned work 
 
-app.get("/api/assignwork", verifyToken, async(req,res)=>{
+app.get("/api/assignwork", async(req,res)=>{
     const findwork=await Compmodel.find({Status:"Assigned to worker"})
   
     if(findwork){
@@ -355,7 +338,7 @@ app.get("/api/assignwork", verifyToken, async(req,res)=>{
 
 //all completed work 
 
-app.get("/api/completed", verifyToken, async(req,res)=>{
+app.get("/api/completed", async(req,res)=>{
     const findwork=await Compmodel.find({Status:"completed"})
   
     if(findwork){
