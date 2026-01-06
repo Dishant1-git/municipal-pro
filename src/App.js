@@ -6,85 +6,67 @@ import { Footer } from './components/footer';
 import { Routee } from './components/routes';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from './reducer/userslice';
+import { login, Logout } from './reducer/userslice';
 import { Admin } from './components/admin';
 import { Worker } from './components/workerh';
 
 function App() {
   const [type, settype] = useState()
 
-  const { LoggedIn, Role ,Logout} = useSelector((state) => {
+  const { LoggedIn, Role } = useSelector((state) => {
     return state.userslice
   })
   const dispatch = useDispatch()
 
   useEffect(() => {
-  // Get token from localStorage (where it actually is)
+    let logoutTimer;
     const token = localStorage.getItem("token");
-    
-    // Get info from sessionStorage (where it actually is)
     const info = sessionStorage.getItem("info");
-    
-    console.log("Token exists:", !!token);
-    console.log("Info exists:", !!info);
     
     if (token && info) {
       try {
         const userdata = JSON.parse(info);
-    
-        
-        // Decode the token - FIXED VERSION
-        // Token format: header.payload.signature
         const parts = token.split('.');
-      
         
         if (parts.length === 3) {
-          // Decode the middle part (payload)
           const payload = parts[1];
-          
-          // atob expects base64, JWT uses base64url
-          // Need to convert base64url to base64
           const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+          const decoded = JSON.parse(atob(base64));
           
-          // Decode
-          const decodedStr = atob(base64);
+          const currentTime = Date.now() / 1000;
           
-          
-          const decoded = JSON.parse(decodedStr);
-          
-          console.log("Decoded token:", decoded);
-         if (decoded.exp && decoded.exp < Date.now() / 1000) {
-            console.warn("Token expired. Logging out.");
+          if (decoded.exp && decoded.exp < currentTime) {
             localStorage.removeItem("token");
             sessionStorage.removeItem("info");
-            alert("logged out")
-            window.location.reload()
             dispatch(Logout());
-            return; 
+          } else {
+            // Set up auto-logout timer
+            if (decoded.exp) {
+              const remainingTime = (decoded.exp - currentTime) * 1000;
+              logoutTimer = setTimeout(() => {
+                localStorage.removeItem("token");
+                sessionStorage.removeItem("info");
+                dispatch(Logout());
+                alert("Your session has expired. You have been logged out.");
+              }, remainingTime);
+            }
+
+            dispatch(login({
+              name: userdata.name,
+              role: decoded.role,
+              Email: userdata.email || "user@example.com"
+            }));
           }
-       
-          
-          const role = decoded.role;
-       
-          
-          // Dispatch with the role from token
-          dispatch(login({
-            name: userdata.name,
-            role: role,  // This is "admin" from your token
-            Email: userdata.email || "user@example.com"  // Add fallback if no email
-          }));
-          
-       
-        } else {
-          console.error("Invalid token format");
         }
       } catch (error) {
-        console.error("Error in auto-login:", error);
+        console.error("Error in auto-login/timeout setup:", error);
       }
-    } else {
-      console.log("No token or info found for auto-login");
     }
-}, [LoggedIn]);
+
+    return () => {
+      if (logoutTimer) clearTimeout(logoutTimer);
+    };
+  }, [dispatch, LoggedIn]);
 
 
   useEffect(() => {
