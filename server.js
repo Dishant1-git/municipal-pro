@@ -246,7 +246,7 @@ app.get("/api/compget/:id", async (req, res) => {
 
 //get all complaints admin
 app.get("/api/allcomp", async (req, res) => {
-    const result = await Compmodel.find()
+    const result = await Compmodel.find().sort({"AddOn":-1})
     if (result) {
         res.send({ statuscode: 1, compdata: result })
     }

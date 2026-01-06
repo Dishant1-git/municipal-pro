@@ -67,9 +67,9 @@ setflag(true)
                     <div class="col-lg-12">
                         <div class="header-main-one-wrapper">
                             <div class="thumbnail">
-                                <a href="index.html">
+                                <Link to="/admin-dashboard">
                                     <img src="assets/images/logo/01.svg" alt="finbiz-logo"/>
-                                </a>
+                                </Link>
                             </div>
                             <div class="main-header">
                                 <div class="nav-area">

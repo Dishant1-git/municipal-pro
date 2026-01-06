@@ -40,7 +40,7 @@ if(res.ok){
             dispatch(login({userdata:result.memberdata,role:userRole}))
             sessionStorage.setItem("info",JSON.stringify(result.memberdata))
            localStorage.setItem("token",result.authtoken)
-            navigate("/")
+            navigate("/admin-dashboard")
            
            
         }
