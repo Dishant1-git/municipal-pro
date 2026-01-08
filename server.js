@@ -139,7 +139,7 @@ app.post("/api/login", async (req, res) => {
 
         if (bypass === true) {
             console.log("role is", role)
-            let token = jwt.sign({ data: find._id, role: find.Role }, key, { expiresIn: "10s" })
+            let token = jwt.sign({ data: find._id, role: find.Role }, key, { expiresIn: "1h" })
             res.send({
                 statuscode: 1, memberdata: user
                 , authtoken: token, role: role
