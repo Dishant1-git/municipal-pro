@@ -32,8 +32,11 @@ function App() {
           const payload = parts[1];
           const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
           const decoded = JSON.parse(atob(base64));
+
+          console.log("Decoded token:", decoded);
           
           const currentTime = Date.now() / 1000;
+          console.log("Current time (s):", currentTime);
           
           if (decoded.exp && decoded.exp < currentTime) {
             localStorage.removeItem("token");
