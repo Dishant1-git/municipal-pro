@@ -13,6 +13,8 @@ export const Compdetail = () => {
     const [adrs, setadrs] = useState("")
     const [pic, setpic] = useState("")
     const [message, setmessage] = useState("")
+    const [priority, setpriority] = useState("")
+    
 
 
     const [params] = useSearchParams()
@@ -143,6 +145,15 @@ if(up.ok){
                                                                     <option value={a._id}>{a.Name}</option>
                                                                 )
                                                             }
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                       Select Priority  <select onChange={(e) => setpriority(e.target.value)}>
+                                                            <option value={"null"}>Select Priority</option>
+                                                            <option value={"high"}>High</option>
+                                                            <option value={"medium"}>Medium</option>
+                                                            <option value={"low"}>low</option>
+                                                        
                                                         </select>
                                                     </div>
 

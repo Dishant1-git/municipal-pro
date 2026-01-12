@@ -183,6 +183,7 @@ const Complaintschema = new mongoose.Schema({
     Detail: String,
     Pic: String,
     AddOn: String,
+    Priority:String,
     Status: String,
     Assignedto: String,
     Messageadmin: String,
@@ -272,7 +273,7 @@ app.put("/api/compupdate/:id", async (req, res) => {
     const compup = await Compmodel.updateOne({ _id: req.params.id }, {
         $set: {
             Status: "Assigned to worker"
-             ,Messageadmin:req.body.message,Assignedto:req.body.assignedtoo 
+             ,Messageadmin:req.body.message,Assignedto:req.body.assignedtoo ,Priority:req.body.priority
 
         }
     })
