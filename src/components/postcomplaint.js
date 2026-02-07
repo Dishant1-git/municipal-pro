@@ -28,7 +28,9 @@ return state.userslice
     },[])
     
     useEffect(()=>{
-        if(!LoggedIn){
+const udata=JSON.parse(sessionStorage.getItem("info"))
+
+        if(!udata){
            
 navigate("/login")
         }
@@ -56,7 +58,8 @@ const result= await fetch("http://localhost:9000/api/complaint",
 if(result.ok){
     const res=await result.json()
     if(res.statuscode===1){
-        alert("You filled a Complaint Successfully")
+        Sendmail()
+        alert("Complaint posted successfully")
     }
     else if(res.statuscode===2){
         alert("upload an image of site")
@@ -65,6 +68,33 @@ if(result.ok){
         alert("error occured")
     }
     
+}
+}
+
+const Sendmail=async()=>{
+   
+
+    const data={email,name}
+    const result=await fetch("http://localhost:9000/api/nodemail",{
+        method:"post",
+        body:JSON.stringify(data),
+        headers:{
+            "content-type":"application/json;charset=UTF-8"
+        }
+       
+
+    }) 
+     if(result.ok){
+        const res= await result.json()
+        if(res.statuscode===1){
+            alert(res.message)
+        }
+        else{
+            alert(res.message)
+
+        }
+
+
 }
     
 
@@ -130,7 +160,7 @@ if(result.ok){
                 </div>
                 <div class="col-lg-6">
                     <div class="contact-form-p new">
-                        <form     onSubmit={submitt}>
+                        <div     >
                             <h4 class="title">Complaint  Detail</h4>
                             <input name="name" id="name" type="text" placeholder="Your Name" onChange={(e)=>setname(e.target.value)}/>
                             <input type="email" name="email" id="email" placeholder="Johndoe@gmail.com" onChange={(e)=>setemail(e.target.value)}/>
@@ -140,8 +170,8 @@ if(result.ok){
                              <textarea name="message" id="message" placeholder="Message" onChange={(e)=>setmsg(e.target.value)}></textarea>
                             <input type="file" name="complaint" onChange={(e)=>setpic(e.target.files[0])}/>
 
-                            <button class="rts-btn btn-primary" type="submit">Post Complaint</button>
-                        </form>
+                            <button class="rts-btn btn-primary" type="button" onClick={submitt}>Post Complaint</button>
+                        </div>
                         
                     </div>
                 </div>
@@ -149,5 +179,6 @@ if(result.ok){
         </div>
     </div>
 
-    </>)
+    </>
+    )
 }

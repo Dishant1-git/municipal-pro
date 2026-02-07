@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
+
+const nodemailer=require('nodemailer')
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
 const bcrypt = require("bcrypt")
@@ -51,6 +53,51 @@ mongoose.connect(process.env.Mongoose_url)
     )
     .catch((err) =>
         console.log("error while connecting to db"))
+
+
+
+
+
+
+
+
+    //nodemailer transporter setup
+    const transporter=nodemailer.createTransport({
+        service:"gmail",
+        auth:{
+            user:process.env.AdminMail,
+            pass:process.env.AdminPass
+        }
+    })
+
+
+//nodemailer api
+
+app.post('/api/nodemail',async(req,res)=>{
+
+    console.log("nodemailer api hit")
+const email=req.body.email
+const name=req.body.name
+console.log(email,"email from api")
+
+const mailOptions={
+    from:"<No reply>"+process.env.AdminMail,
+    to:email,
+    subject:"Regarding your complaint",
+    text:"Thanks for contacting us, we have received your complaint and will get back to you soon",
+    html:`<h1>Hi ${name} </h1>   <h1> Sorry for the problem You are facing.</h1><p>We have received your complaint and will Resolve your problem as soon as possible. </p>`
+}
+const result= await transporter.sendMail(mailOptions)
+console.log(result,"result from nodemailer")
+
+if(result){
+    res.send({statuscode:1,message:"Email sent Succesfully"})
+}
+else{
+    res.send({statuscode:0,message:"Error ocuured while Sending mail"})
+}
+
+})
 
 
 
@@ -121,6 +168,10 @@ app.post("/api/login", async (req, res) => {
    
     const find = await Registermodel.findOne({ Email: req.body.email })
     console.log(find)
+
+    if (!find) {
+        return res.send({ statuscode: 0, message: "User not found" })
+    }
 
     if (find.Isactive === true) {
         const hash = find.Password
