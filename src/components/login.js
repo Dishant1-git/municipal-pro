@@ -1,156 +1,138 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { login } from "../reducer/userslice"
-import { Navigate, useNavigate } from "react-router-dom"
+import { Navigate, useNavigate, Link } from "react-router-dom"
+import { motion } from 'framer-motion'
+import { HiOutlineMail, HiOutlineLockClosed } from 'react-icons/hi'
 
-export const Login=()=>{
+export const Login = () => {
+    const [email, setemail] = useState("")
+    const [pass, setpass] = useState("")
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
+    const Log = async (e) => {
+        const data = { email, pass }
+        e.preventDefault();
+        try {
+            const res = await fetch("http://localhost:9000/api/login", {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                    "content-type": "application/json;charset=UTF-8"
+                }
+            })
+            if (res.ok) {
+                const result = await res.json()
+                if (result.statuscode == 1) {
+                    alert("Logged in successfully")
+                    const decodedToken = JSON.parse(atob(result.authtoken.split('.')[1]));
+                    const userRole = decodedToken.role;
 
-const [email,setemail]=useState("")
-const [pass,setpass]=useState("")
-
-
-const dispatch=useDispatch()
-const navigate=useNavigate()
-
-const Log=async(e)=>{
-    const data={email,pass}
-e.preventDefault();
-const res= await fetch("http://localhost:9000/api/login",{
-    method:"POST",
-    body:JSON.stringify(data),
-    headers:{
-        "content-type":"application/json;charset=UTF-8"
-    }
-
-})
-if(res.ok){
-    const result=await res.json()
- 
-    if(result.statuscode==1){
-    
-        alert("registered successfully")
-
-        const decodedToken = JSON.parse(atob(result.authtoken.split('.')[1]));
-        const userRole = decodedToken.role;
-
-        if(userRole=="admin"){
-            alert("welcome admin")
-            
-            dispatch(login({userdata:result.memberdata,role:userRole}))
-            sessionStorage.setItem("info",JSON.stringify(result.memberdata))
-           localStorage.setItem("token",result.authtoken)
-            navigate("/admin-dashboard")
-           
-           
-        }
-        else if(userRole=="worker"){
-            alert("welcome worker")
-              navigate("/")
-           
-            dispatch(login({userdata:result.memberdata,role:userRole}))
-            sessionStorage.setItem("info",JSON.stringify(result.memberdata))
-           localStorage.setItem("token",JSON.stringify(result.authtoken)) 
-
-        }
-        else{
-            alert("welcome user")
-               navigate("/")
-           
-            dispatch(login({userdata:result.memberdata,role:userRole}))
-            sessionStorage.setItem("info",JSON.stringify(result.memberdata))
-         localStorage.setItem("token",JSON.stringify(result.authtoken))
+                    if (userRole == "admin") {
+                        dispatch(login({ userdata: result.memberdata, role: userRole }))
+                        sessionStorage.setItem("info", JSON.stringify(result.memberdata))
+                        localStorage.setItem("token", result.authtoken)
+                        navigate("/admin-dashboard")
+                    }
+                    else if (userRole == "worker") {
+                        dispatch(login({ userdata: result.memberdata, role: userRole }))
+                        sessionStorage.setItem("info", JSON.stringify(result.memberdata))
+                        localStorage.setItem("token", JSON.stringify(result.authtoken))
+                        navigate("/")
+                    }
+                    else {
+                        dispatch(login({ userdata: result.memberdata, role: userRole }))
+                        sessionStorage.setItem("info", JSON.stringify(result.memberdata))
+                        localStorage.setItem("token", JSON.stringify(result.authtoken))
+                        navigate("/")
+                    }
+                }
+                else if (result.statuscode == 2) {
+                    alert("Kindly request admin for activation of your account")
+                }
+                else {
+                    alert("Credentials don't match")
+                }
+            }
+        } catch (error) {
+            console.error("Login error:", error);
+            alert("Failed to connect to server");
         }
     }
-    else if(result.statuscode==2) {
-       alert("kindly request admin for activation your account")
-    }
-    else{
-        alert("credentials dont match")
-    }
-  
-}
 
-}
-
-
-    return(
-        <>
- <div class="rts-breadcrumb-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="title-area-left center">
-                        <span class="bg-title">Login</span>
-                        <h1 class="title rts-text-anime-style-1">
-                            Login
-                        </h1>
+    return (
+        <div className="min-h-screen pt-32 pb-20 bg-gray-50 flex items-center justify-center px-4">
+            <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="max-w-md w-full"
+            >
+                <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
+                    <div className="bg-primary p-8 text-center">
+                        <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
+                            <span className="text-white font-bold text-2xl">MC</span>
+                        </div>
+                        <h2 className="text-2xl font-bold text-white">Welcome Back</h2>
+                        <p className="text-blue-100 text-sm mt-1">Login to access citizen services</p>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="shape-area">
-            <img src="assets/images/about/shape/01.png" alt="shape" class="one"/>
-            <img src="assets/images/about/shape/02.png" alt="shape" class="two"/>
-            <img src="assets/images/about/shape/03.png" alt="shape" class="three"/>
-        </div>
-    </div>
 
+                    <div className="p-8">
+                        <form onSubmit={Log} className="space-y-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                                <div className="relative">
+                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                        <HiOutlineMail size={20} />
+                                    </div>
+                                    <input 
+                                        type="email" 
+                                        required
+                                        className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                        placeholder="your@email.com"
+                                        onChange={(e) => setemail(e.target.value)}
+                                    />
+                                </div>
+                            </div>
 
-    
-    <div class="rts-contact-area-in-page" data-animation="fadeInUp" data-delay="0.2">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <div class="contact-info-area-wrapper-p new">
-                        <div class="single-contact-info">
-                            <div class="icon">
-                                <i class="fa-solid fa-phone-flip"></i>
+                            <div>
+                                <div className="flex items-center justify-between mb-2">
+                                    <label className="block text-sm font-medium text-gray-700">Password</label>
+                                    <a href="#" className="text-xs text-primary hover:underline font-medium">Forgot password?</a>
+                                </div>
+                                <div className="relative">
+                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                        <HiOutlineLockClosed size={20} />
+                                    </div>
+                                    <input 
+                                        type="password" 
+                                        required
+                                        className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                        placeholder="••••••••"
+                                        onChange={(e) => setpass(e.target.value)}
+                                    />
+                                </div>
                             </div>
-                            <div class="info-wrapper">
-                                <span>Call Us 24/7</span>
-                                <a href="#">(+256) 2145.2156</a>
-                            </div>
-                        </div>
-                        <div class="single-contact-info">
-                            <div class="icon">
-                                <i class="fa-solid fa-envelope"></i>
-                            </div>
-                            <div class="info-wrapper">
-                                <span>Work with us</span>
-                                <a href="#">info@Invena.com</a>
-                            </div>
-                        </div>
-                        <div class="single-contact-info">
-                            <div class="icon">
-                                <i class="fa-solid fa-location-dot"></i>
-                            </div>
-                            <div class="info-wrapper">
-                                <span>Our Location</span>
-                                <a href="#">125 Town, United State</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="contact-form-p new">
-                        <form     onSubmit={Log}>
-                            <h4 class="title">Get In Touch</h4>
-                          
-                            <input type="email"  placeholder="Johndoe@gmail.com" onChange={(e)=>setemail(e.target.value)}/>
-                            <input type="password"  placeholder="Password" onChange={(e)=>setpass(e.target.value)}/>
-                        
-                            
 
-                            <button class="rts-btn btn-primary" type="submit">Login</button>
+                            <button 
+                                type="submit" 
+                                className="w-full py-3 bg-primary hover:bg-blue-900 text-white font-bold rounded-xl shadow-lg shadow-blue-200 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+                            >
+                                Sign In
+                            </button>
                         </form>
-                        
+
+                        <div className="mt-8 pt-6 border-t border-gray-100 text-center">
+                            <p className="text-sm text-gray-600">
+                                Don't have an account?{' '}
+                                <Link to="/signup" className="text-primary font-bold hover:underline">
+                                    Register Now
+                                </Link>
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </div>
-    </div>
-
-        </>
     )
 }

@@ -1,13 +1,45 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-size: 18px;
+  }
+  body {
+    @apply bg-light text-gray-800 font-sans antialiased;
+    overflow-x: hidden;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans font-semibold text-gray-900 tracking-tight;
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer components {
+  .glass-card {
+    @apply bg-white bg-opacity-80 backdrop-blur-md border border-gray-100 shadow-sm rounded-2xl;
+  }
+  .btn-primary {
+    @apply px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-blue-900 transition-colors duration-300 shadow-md hover:shadow-lg;
+  }
+  .btn-secondary {
+    @apply px-6 py-3 bg-white text-primary border border-primary font-medium rounded-lg hover:bg-gray-50 transition-colors duration-300 shadow-sm;
+  }
+  .btn-accent {
+    @apply px-6 py-3 bg-accent text-white font-medium rounded-lg hover:bg-teal-600 transition-colors duration-300 shadow-md hover:shadow-lg;
+  }
+  
+  /* Global overrides to forcefully scale up legacy navigation menus */
+  .nav-area ul li a {
+    @apply text-base !important;
+  }
+  .nav-area .submenu li a {
+    @apply text-sm !important;
+  }
+  .rts-mega-menu .title {
+    @apply text-lg mb-3 !important;
+  }
 }

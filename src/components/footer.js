@@ -1,121 +1,81 @@
-export const Footer =()=>{
-    return(
-        <>
+import React from 'react';
+import { HiOutlineMail, HiOutlinePhone } from 'react-icons/hi';
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 
- <div class="rts-footer-area pt--100 pb--100 pt_sm--50 pb_sm--40  footer-two footer-bg-two">
-        <div class="container">
-            <div class="row">
-            
-                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12">
-                    <div class="footer-two-single-wized left">
-                        <h3 class="title animated fadeIn">
-                            <span>Ready To</span> <br/>
-                        Work With Us?
-                        </h3>
-                        <p class="disc">
-                            Felis consequat magnis est fames sagittis ultrices placerat sodales porttitor quisque.
+export const Footer = () => {
+    return (
+        <footer className="bg-slate-900 pt-16 pb-8 text-gray-300 border-t border-slate-800">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                    
+                    <div className="col-span-1 lg:col-span-1">
+                        <div className="flex items-center gap-2 mb-6">
+                            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+                                <span className="text-white font-bold text-xl">MC</span>
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="font-bold text-lg leading-tight text-white">Smart City</span>
+                                <span className="text-xs text-gray-400 font-medium">Municipal Corporation</span>
+                            </div>
+                        </div>
+                        <p className="text-sm text-gray-400 mb-6 leading-relaxed">
+                            Committed to providing efficient, transparent, and citizen-friendly civic services to build a sustainable future.
                         </p>
-                        <a class="rts-btn btn-primary" href="#">Get a Quote</a>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12 mt_sm--50">
-                    <div class="footer-two-single-wized two">
-                        <div class="wized-title-area">
-                            <h5 class="wized-title">Our Services</h5>
-                            <img src="assets/images/footer/01.png" alt="Invena_Footer"/>
-                        </div>
-                        <div class="wized-2-body">
-                            <ul>
-                                <li><a href="service-details.html"><i class="fal fa-chevron-double-right"></i>Business
-                                        planning</a></li>
-                                <li><a href="service-details.html"><i class="fal fa-chevron-double-right"></i>Tax
-                                        strategy</a></li>
-                                <li><a href="service-details.html"><i class="fal fa-chevron-double-right"></i>Financial
-                                        advices</a></li>
-                                <li><a href="service-details.html"><i class="fal fa-chevron-double-right"></i>Insurance
-                                        strategy</a></li>
-                                <li><a href="service-details.html"><i class="fal fa-chevron-double-right"></i>Manage
-                                        investment</a></li>
-                            </ul>
+                        <div className="flex gap-4">
+                            <a href="#" className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary transition-colors text-white"><FaFacebookF size={14} /></a>
+                            <a href="#" className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary transition-colors text-white"><FaTwitter size={14} /></a>
+                            <a href="#" className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary transition-colors text-white"><FaInstagram size={14} /></a>
+                            <a href="#" className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary transition-colors text-white"><FaLinkedinIn size={14} /></a>
                         </div>
                     </div>
+                    
+                    <div>
+                        <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Quick Links</h4>
+                        <ul className="flex flex-col gap-3 text-sm">
+                            <li><a href="/" className="hover:text-accent transition-colors">Home</a></li>
+                            <li><a href="#about" className="hover:text-accent transition-colors">About Us</a></li>
+                            <li><a href="#services" className="hover:text-accent transition-colors">Our Services</a></li>
+                            <li><a href="#departments" className="hover:text-accent transition-colors">Departments</a></li>
+                            <li><a href="#projects" className="hover:text-accent transition-colors">Ongoing Projects</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Services</h4>
+                        <ul className="flex flex-col gap-3 text-sm">
+                            <li><a href="#" className="hover:text-accent transition-colors">Pay Property Tax</a></li>
+                            <li><a href="#" className="hover:text-accent transition-colors">Water Bill Payment</a></li>
+                            <li><a href="#" className="hover:text-accent transition-colors">Birth/Death Certificate</a></li>
+                            <li><a href="#" className="hover:text-accent transition-colors">Trade License Renewal</a></li>
+                            <li><a href="/complaint" className="hover:text-accent transition-colors">Register Complaint</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Contact Info</h4>
+                        <ul className="flex flex-col gap-4 text-sm">
+                            <li className="flex items-start gap-3">
+                                <HiOutlinePhone className="text-xl text-accent flex-shrink-0 mt-0.5" />
+                                <span>1800-123-4567<br/>+91 98765 43210</span>
+                            </li>
+                            <li className="flex items-start gap-3">
+                                <HiOutlineMail className="text-xl text-accent flex-shrink-0 mt-0.5" />
+                                <span>support@smartcity.gov<br/>info@smartcity.gov</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
                 </div>
                 
-                <div class="col-xl-2 col-lg-6 col-md-6 col-sm-12 col-12 mt_sm--30 mt_md--30">
-                    <div class="footer-two-single-wized">
-                        <div class="wized-title-area">
-                            <h5 class="wized-title">Contact Us</h5>
-                            <img src="assets/images/footer/01.png" alt="Invena_Footer"/>
-                        </div>
-                        <div class="wized-2-body">
-                            <div class="contact-info-1">
-                                <div class="icon">
-                                    <i class="fas fa-phone-alt"></i>
-                                </div>
-                                <div class="disc">
-                                    <span>Call Us 24/7</span>
-                                    <a href="#">(+256) 2145.2156</a>
-                                </div>
-                            </div>
-                            <div class="contact-info-1">
-                                <div class="icon">
-                                    <i class="fas fa-envelope"></i>
-                                </div>
-                                <div class="disc">
-                                    <span>Work with us</span>
-                                    <a href="#">info@Invena.com</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-              
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                    <div class="footer-two-single-wized right">
-                        <div class="wized-2-body">
-                            <div class="contact-info-1">
-                                <div class="icon">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </div>
-                                <div class="disc">
-                                    <span>Our Location</span>
-                                    <a href="#">XYZ Hilton Street, 125 Town <br/>
-                                    United State</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-              
-            </div>
-        </div>
-    </div>
-    <div class="rts-copy-right-1 ptb--10">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="copyright-h-2-wrapper">
-                        <p class="disc">
-                            Invena - Copyright
-                            <script>
-                                document.write(
-                                    new Date().getFullYear()
-                                )
-                            </script>. All rights reserved.
-                        </p>
-                        <div class="right">
-                            <ul>
-                                <li><a href="blog-list.html">Company News</a></li>
-                                <li><a href="#">Faq</a></li>
-                                <li><a href="contact.html">Contact</a></li>
-                            </ul>
-                        </div>
+                <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+                    <p>© {new Date().getFullYear()} Smart City Municipal Corporation. All rights reserved.</p>
+                    <div className="flex gap-4">
+                        <a href="#" className="hover:text-gray-300 transition-colors">Privacy Policy</a>
+                        <a href="#" className="hover:text-gray-300 transition-colors">Terms of Service</a>
+                        <a href="#" className="hover:text-gray-300 transition-colors">Sitemap</a>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-        </>
+        </footer>
     )
 }

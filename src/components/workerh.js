@@ -10,52 +10,59 @@ setid(data.id)
     },[])
     return(
         <>
-        <header class="header-one header--sticky">
-        <div class="header-top-area-wrapper">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="header-top-one-wrapper">
-                            <div class="left">
-                                <div class="mail">
-                                    <a href="mailto:webmaster@example.com"><i class="fal fa-envelope"></i>
-                                        support@worker.com</a>
-                                </div>
-                                <div class="working-time">
-                                    <p><i class="fal fa-clock"></i> Working: 8.00am - 5.00pm</p>
-                                </div>
+        <header className="bg-white shadow-md border-b border-gray-100 z-50 sticky top-0">
+            {/* Modern Top Bar */}
+            <div className="bg-slate-900 text-slate-300 text-base py-3.5">
+                <div className="container mx-auto px-4 lg:px-8">
+                    <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div className="flex items-center gap-6">
+                            <a href="mailto:support@worker.com" className="flex items-center gap-2 hover:text-white transition-colors font-medium">
+                                <i className="fal fa-envelope text-primary text-lg"></i> support@worker.com
+                            </a>
+                            <div className="hidden md:flex items-center gap-2 text-slate-400 font-medium">
+                                <i className="fal fa-clock text-primary text-lg"></i> Working: 8.00am - 5.00pm
                             </div>
-                            <div class="right">
-                                <ul class="top-nav">
-                                    <li><a href="blog-list.html">Company news</a></li>
-                                    <li><a href="faq.html">Faq</a></li>
-                                    <li><a href="contact.html">Contact</a></li>
-                                </ul>
-                                <ul class="social-wrapper-one">
-                                    <li><a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a></li>
-                                    <li><a href="#" aria-label="twitter"><i class="fab fa-twitter"></i></a></li>
-                                    <li><a href="#" aria-label="instagram"><i class="fab fa-instagram"></i></a></li>
-                                    <li><a class="mr--0" href="#" aria-label="linkedin"><i class="fab fa-linkedin-in"></i></a></li>
-                                </ul>
+                        </div>
+                        <div className="flex items-center gap-6">
+                            <div className="hidden lg:flex items-center gap-5 border-r border-slate-700 pr-6 font-medium">
+                                <a href="#" className="hover:text-white transition-colors">Company news</a>
+                                <a href="#" className="hover:text-white transition-colors">FAQ</a>
+                                <a href="#" className="hover:text-white transition-colors">Contact</a>
+                            </div>
+                            <div className="flex items-center gap-4 text-lg">
+                                <a href="#" className="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary hover:text-white transition-all"><i className="fab fa-facebook-f"></i></a>
+                                <a href="#" className="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center hover:bg-[#1DA1F2] hover:text-white transition-all"><i className="fab fa-twitter"></i></a>
+                                <a href="#" className="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center hover:bg-[#E1306C] hover:text-white transition-all"><i className="fab fa-instagram"></i></a>
+                                <a href="#" className="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center hover:bg-[#0077B5] hover:text-white transition-all"><i className="fab fa-linkedin-in"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="header-main">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="header-main-one-wrapper">
-                            <div class="thumbnail">
-                                <a href="index.html">
-                                    <img src="assets/images/logo/01.svg" alt="finbiz-logo"/>
-                                </a>
-                            </div>
-                            <div class="main-header">
-                                <div class="nav-area">
-                                    <ul class="">
+
+            {/* Modern Main Header */}
+            <div className="header-main bg-white">
+                <div className="container mx-auto px-4 lg:px-8">
+                    <div className="flex items-center justify-between py-5 header-main-one-wrapper">
+                        {/* Logo */}
+                        <div className="flex-shrink-0">
+                            <Link to="/" className="flex items-center gap-3 group">
+                                <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform shadow-lg shadow-primary/30">
+                                    <span className="text-white font-bold text-2xl">MC</span>
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="font-bold text-xl leading-tight text-primary">
+                                        Smart City
+                                    </span>
+                                    <span className="text-sm text-gray-500 font-medium tracking-wide">Municipal Corporation</span>
+                                </div>
+                            </Link>
+                        </div>
+
+                        {/* Nav Area */}
+                        <div className="main-header flex items-center justify-end flex-1 gap-8">
+                            <div className="nav-area hidden lg:block">
+                                <ul className="flex items-center m-0 p-0">
                                         <li class="main-nav ">
                                             <a href="">Home</a>
                                            
@@ -287,31 +294,25 @@ setid(data.id)
                                                 <li><a href="contact-2.html">Contact 2</a></li>
                                             </ul>
                                         </li>
-                                    </ul>
-                                </div>
+                                </ul>
+                            </div>
 
-
-                                <div class="loader-wrapper">
-                                    <div class="loader">
-                                    </div>
-                                    <div class="loader-section section-left"></div>
-                                    <div class="loader-section section-right"></div>
-                                </div>
-                                <div class="button-area">
-                                    <button class="search" id="search" aria-label="Search"><i class="far fa-search"></i></button>
-                                    <a href="contact.html" class="rts-btn btn-primary ml--20 ml_sm--5 header-one-btn quote-btn">Get
-                                        Quote</a>
-                                    <button id="menu-btn" aria-label="Menu" class="menu-btn menu ml--20 ml_sm--5">
-                                        <img class="menu-light" src="assets/images/icons/01.svg" alt="Menu-icon"/>
-                                    </button>
-                                </div>
+                            <div className="flex items-center gap-5 button-area">
+                                <button className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center text-gray-600 hover:bg-gray-100 hover:text-primary transition-colors border border-gray-200 text-xl">
+                                    <i className="far fa-search"></i>
+                                </button>
+                                <a href="contact.html" className="hidden sm:inline-flex items-center justify-center px-7 py-3.5 bg-primary text-white font-medium text-lg rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/25">
+                                    Get Quote
+                                </a>
+                                <button id="menu-btn" className="lg:hidden w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center text-gray-900 hover:bg-gray-200 transition-colors text-xl">
+                                    <i className="far fa-bars"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </header>
+        </header>
 
     <div id="side-bar" class="side-bar header-two">
         <button class="close-icon-menu" title="Close menu"><i class="far fa-times"></i></button>
