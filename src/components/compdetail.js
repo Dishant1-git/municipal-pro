@@ -17,6 +17,10 @@ export const Compdetail = () => {
     const [message, setmessage] = useState("")
     const [priority, setpriority] = useState("")
 
+    // Worker states
+    const [workerStatus, setWorkerStatus] = useState("")
+    const [workerMessage, setWorkerMessage] = useState("")
+
     const [params] = useSearchParams()
     const navigate = useNavigate()
     const idd = params.get("id")
@@ -65,6 +69,32 @@ export const Compdetail = () => {
         }
     }
 
+    const WorkerUpdate = async (e) => {
+        e.preventDefault()
+        const data = { status: workerStatus, message: workerMessage }
+        try {
+            const up = await fetch(`http://localhost:9000/api/compupworker/${idd}`, {
+                method: "Put",
+                body: JSON.stringify(data),
+                headers: {
+                    "content-type": "application/json;charset=UTF-8"
+                }
+            })
+            if (up.ok) {
+                const result = await up.json()
+                if (result.statuscode === 1) {
+                    alert("Task status successfully updated")
+                    navigate("/assigned")
+                } else {
+                    alert("Error occurred while updating")
+                }
+            }
+        } catch (error) {
+            console.error("Worker update error:", error);
+            alert("Failed to connect to server");
+        }
+    }
+
     const Assign = async (e) => {
         e.preventDefault()
         const data = { assignedtoo, message, priority }
@@ -103,7 +133,7 @@ export const Compdetail = () => {
                         {/* Main Image */}
                         <div className="aspect-video relative overflow-hidden bg-gray-900">
                             <img 
-                                src={`http://localhost:9000/uploads/${pic}`} 
+                                src={`/uploads/${pic}`} 
                                 alt={pro}
                                 className="w-full h-full object-contain"
                                 onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1584467735815-f778f274e296?auto=format&fit=crop&q=80&w=800'; }}
@@ -145,6 +175,53 @@ export const Compdetail = () => {
                                         </div>
                                     </div>
                                 </div>
+
+                                {Role === "worker" && (
+                                    <div className="lg:col-span-1 space-y-6">
+                                        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm sticky top-24">
+                                            <div className="flex items-center gap-3 mb-6">
+                                                <HiOutlineClipboardCheck className="text-2xl text-primary" />
+                                                <h3 className="text-lg font-bold text-gray-900">Update Task Status</h3>
+                                            </div>
+                                            <form onSubmit={WorkerUpdate} className="space-y-5">
+                                                <div>
+                                                    <label className="block text-sm font-medium text-gray-700 mb-2">Status Change</label>
+                                                    <select
+                                                        value={workerStatus}
+                                                        onChange={(e) => setWorkerStatus(e.target.value)}
+                                                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all bg-gray-50"
+                                                        required
+                                                    >
+                                                        <option value="" disabled>Select new status</option>
+                                                        <option value="completed">Completed</option>
+                                                        <option value="Revert to admin">Revert to admin</option>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div>
+                                                    <label className="block text-sm font-medium text-gray-700 mb-2">Reason / Addon Message</label>
+                                                    <div className="relative">
+                                                        <HiOutlineChatAlt2 className="absolute top-3.5 left-4 text-gray-400 text-xl" />
+                                                        <textarea
+                                                            value={workerMessage}
+                                                            onChange={(e) => setWorkerMessage(e.target.value)}
+                                                            className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all bg-gray-50 min-h-[120px] resize-none"
+                                                            placeholder="Add reason or completion details..."
+                                                            required
+                                                        ></textarea>
+                                                    </div>
+                                                </div>
+
+                                                <button
+                                                    type="submit"
+                                                    className="w-full py-3.5 bg-primary text-white rounded-xl font-medium hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 active:scale-[0.98]"
+                                                >
+                                                    Submit Update
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                )}
 
                                 {Role === "admin" && (
                                     <div className="lg:col-span-1 space-y-6">

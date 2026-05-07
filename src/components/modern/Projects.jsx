@@ -13,7 +13,7 @@ export const Projects = () => {
       title: "Green Energy Solar Park",
       category: "Environment",
       progress: 40,
-      image: "https://images.unsplash.com/photo-1509391366360-1f9e9cf22c0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+      image: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
     },
     {
       title: "Public Library Renovation",

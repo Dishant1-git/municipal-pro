@@ -187,7 +187,7 @@ export const AdminPage = () => {
                     </div>
 
                     {/* Navigation Links */}
-                    <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
+                    <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                         <button 
                             onClick={() => navigate("/Compshowadmin")}
                             className="p-8 bg-white border border-gray-200 rounded-[2rem] hover:border-primary hover:shadow-lg transition-all group"
@@ -201,6 +201,13 @@ export const AdminPage = () => {
                         >
                             <h4 className="font-bold text-gray-900 group-hover:text-red-500 transition-colors">View Unassigned Tasks</h4>
                             <p className="text-gray-500 text-sm mt-1">Check for critical pending complaints</p>
+                        </button>
+                        <button 
+                            onClick={() => navigate("/reverted")}
+                            className="p-8 bg-white border border-gray-200 rounded-[2rem] hover:border-orange-500 hover:shadow-lg transition-all group"
+                        >
+                            <h4 className="font-bold text-gray-900 group-hover:text-orange-500 transition-colors">Reverted / Canceled</h4>
+                            <p className="text-gray-500 text-sm mt-1">Review tasks reverted by workers</p>
                         </button>
                     </div>
                 </div>

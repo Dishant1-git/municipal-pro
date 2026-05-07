@@ -72,7 +72,7 @@ export const Navbar = () => {
 
           {/* Mobile Menu Toggle */}
           <button 
-            className="md:hidden text-2xl text-primary"
+            className="md:hidden text-2xl text-primary w-fit h-fit flex-shrink-0 flex items-center justify-center"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <HiX /> : <HiMenu />}

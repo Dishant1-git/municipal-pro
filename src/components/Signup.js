@@ -91,7 +91,8 @@ export const Signup = () => {
                                     <input 
                                         type="text" 
                                         required
-                                        className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                        className="w-full pl-14 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                        style={{ paddingLeft: '3.5rem' }}
                                         placeholder="John Doe"
                                         onChange={(e) => setname(e.target.value)}
                                     />
@@ -107,7 +108,8 @@ export const Signup = () => {
                                     <input 
                                         type="email" 
                                         required
-                                        className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                        className="w-full pl-14 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                        style={{ paddingLeft: '3.5rem' }}
                                         placeholder="john@example.com"
                                         onChange={(e) => setemail(e.target.value)}
                                     />
@@ -124,7 +126,8 @@ export const Signup = () => {
                                         <input 
                                             type="password" 
                                             required
-                                            className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                            className="w-full pl-14 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                            style={{ paddingLeft: '3.5rem' }}
                                             placeholder="••••••••"
                                             onChange={(e) => setpass(e.target.value)}
                                         />
@@ -139,7 +142,8 @@ export const Signup = () => {
                                         <input 
                                             type="password" 
                                             required
-                                            className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                            className="w-full pl-14 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                            style={{ paddingLeft: '3.5rem' }}
                                             placeholder="••••••••"
                                             onChange={(e) => setcpass(e.target.value)}
                                         />

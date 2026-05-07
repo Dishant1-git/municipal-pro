@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { motion } from 'framer-motion'
-import { HiOutlineUser, HiOutlineCalendar, HiOutlineClipboardList, HiOutlineCheckCircle } from 'react-icons/hi'
+import { HiOutlineUser, HiOutlineCalendar, HiOutlineClipboardList, HiOutlineExclamationCircle } from 'react-icons/hi'
 import { useSelector } from 'react-redux'
 
-export const Completed = () => {
+export const Reverted = () => {
     const [allcomp, setallcomp] = useState([])
     const { Role } = useSelector((state) => state.userslice) || { Role: "" }
 
@@ -14,7 +14,7 @@ export const Completed = () => {
 
     const get = async () => {
         try {
-            let url = "http://localhost:9000/api/completed";
+            let url = "http://localhost:9000/api/reverted";
             if (Role === "worker") {
                 const info = JSON.parse(sessionStorage.getItem("info"));
                 if (info && info.id) {
@@ -41,10 +41,10 @@ export const Completed = () => {
                 <div className="max-w-5xl mx-auto">
                     <div className="mb-10 flex items-center justify-between">
                         <div>
-                            <h1 className="text-3xl font-bold text-gray-900">Resolved Complaints</h1>
+                            <h1 className="text-3xl font-bold text-gray-900">Reverted / Canceled Tasks</h1>
                             <p className="text-gray-600 mt-2 flex items-center gap-2">
-                                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                                History of successfully completed tasks
+                                <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+                                Tasks that were reverted to admin by the assigned worker
                             </p>
                         </div>
                     </div>
@@ -59,7 +59,7 @@ export const Completed = () => {
                                 >
                                     <Link 
                                         to={`/detail?id=${a._id}`}
-                                        className="group block bg-white rounded-3xl p-6 shadow-sm border border-gray-100 hover:shadow-md hover:border-green-200 transition-all"
+                                        className="group block bg-white rounded-3xl p-6 shadow-sm border border-gray-100 hover:shadow-md hover:border-red-200 transition-all"
                                     >
                                         <div className="flex flex-col md:flex-row gap-8 items-center">
                                             <div className="w-full md:w-44 aspect-video rounded-2xl overflow-hidden bg-gray-100 flex-shrink-0 grayscale group-hover:grayscale-0 transition-all duration-500">
@@ -73,9 +73,9 @@ export const Completed = () => {
 
                                             <div className="flex-grow">
                                                 <div className="flex flex-wrap items-center gap-4 mb-3">
-                                                    <div className="flex items-center gap-1.5 text-xs font-bold text-green-600 bg-green-50 px-3 py-1 rounded-full border border-green-100">
-                                                        <HiOutlineCheckCircle />
-                                                        Successfully Resolved
+                                                    <div className="flex items-center gap-1.5 text-xs font-bold text-red-600 bg-red-50 px-3 py-1 rounded-full border border-red-100">
+                                                        <HiOutlineExclamationCircle />
+                                                        Reverted to Admin
                                                     </div>
                                                     <div className="flex items-center gap-1.5 text-xs text-gray-400">
                                                         <HiOutlineCalendar />
@@ -83,7 +83,7 @@ export const Completed = () => {
                                                     </div>
                                                 </div>
 
-                                                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">
+                                                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors">
                                                     {a.Problem}
                                                 </h3>
                                                 <div className="flex items-center gap-1.5 text-sm text-gray-500 mb-3">
@@ -91,13 +91,13 @@ export const Completed = () => {
                                                     {a.Name}
                                                 </div>
                                                 <p className="text-gray-500 text-sm line-clamp-2">
-                                                    {a.Detail || 'Task resolution details recorded.'}
+                                                    <span className="font-semibold">Worker Reason:</span> {a.Messageadmin || 'No reason provided.'}
                                                 </p>
                                             </div>
 
                                             <div className="flex-shrink-0">
-                                                <div className="w-12 h-12 rounded-full bg-green-50 text-green-600 flex items-center justify-center group-hover:bg-green-600 group-hover:text-white transition-all shadow-sm">
-                                                    <HiOutlineCheckCircle className="text-2xl" />
+                                                <div className="w-12 h-12 rounded-full bg-red-50 text-red-600 flex items-center justify-center group-hover:bg-red-600 group-hover:text-white transition-all shadow-sm">
+                                                    <HiOutlineExclamationCircle className="text-2xl" />
                                                 </div>
                                             </div>
                                         </div>
@@ -107,10 +107,10 @@ export const Completed = () => {
                         ) : (
                             <div className="text-center py-24 bg-white rounded-[40px] border border-dashed border-gray-200">
                                 <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                                    <HiOutlineCheckCircle className="text-4xl text-gray-200" />
+                                    <HiOutlineExclamationCircle className="text-4xl text-gray-200" />
                                 </div>
-                                <h3 className="text-xl font-bold text-gray-900 mb-2">No completed records</h3>
-                                <p className="text-gray-500">History of resolved complaints will be displayed here.</p>
+                                <h3 className="text-xl font-bold text-gray-900 mb-2">No reverted records</h3>
+                                <p className="text-gray-500">Tasks reverted by workers will be displayed here.</p>
                             </div>
                         )}
                     </div>

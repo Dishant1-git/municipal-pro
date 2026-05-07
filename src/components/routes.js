@@ -12,6 +12,12 @@ import { Notassigned } from "./notassigned"
 import { Assigned } from "./assignedwork"
 import { Completed } from "./completed"
 import { AdminPage } from "./adminpage"
+import { Processed } from "./processed"
+import { WorkerDashboard } from "./workerdashboard"
+import { About } from "./about"
+import { Contact } from "./contact"
+import { Services } from "./services"
+import { Reverted } from "./reverted"
 
 export const Routee=()=>{
     return(
@@ -29,7 +35,13 @@ export const Routee=()=>{
            <Route path="/notassign" element={<Notassigned/>}/>
            <Route path="/assigned" element={<Assigned/>}/>
            <Route path="/completed-work" element={<Completed/>}/>
+           <Route path="/processed" element={<Processed/>}/>
+           <Route path="/worker-dashboard" element={<WorkerDashboard/>}/>
+           <Route path="/about" element={<About/>}/>
+           <Route path="/contact" element={<Contact/>}/>
+           <Route path="/services" element={<Services/>}/>
            <Route path="/admin-dashboard" element={<AdminPage/>}/>
+           <Route path="/reverted" element={<Reverted/>}/>
         </Routes>
         </>
     )

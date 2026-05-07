@@ -44,9 +44,9 @@ export const User = () => {
         { name: 'Home', path: '/' },
         { name: 'File Complaint', path: '/complaint' },
         { name: 'My Complaints', path: '/compshow' },
-        { name: 'About', path: '/#about' },
-        { name: 'Services', path: '/#services' },
-        { name: 'Contact', path: '/#contact' },
+        { name: 'About', path: '/about' },
+        { name: 'Services', path: '/services' },
+        { name: 'Contact', path: '/contact' },
     ];
 
     return (

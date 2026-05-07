@@ -24,7 +24,7 @@ export const About = () => {
           >
             <div className="relative rounded-3xl overflow-hidden shadow-xl aspect-w-4 aspect-h-4 lg:aspect-h-5 w-full max-w-md mx-auto">
               <img 
-                src="https://images.unsplash.com/photo-1577493341514-fc562d9894e4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
                 alt="City Hall" 
                 className="w-full h-full object-cover"
               />

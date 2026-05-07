@@ -129,7 +129,7 @@ setflag(true)
                                                                         </Link>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="service-details-2.html">
+                                                                        <Link to="/completed-work">
                                                                             <div class="single-service-menu">
                                                                                 <div class="icon">
                                                                                     <img src="assets/images/service/05.svg" alt="service"/>
@@ -137,46 +137,45 @@ setflag(true)
                                                                                 <div class="info">
                                                                                     <h5 class="title">Completed</h5>
                                                                                     <p class="details">
-                                                                                        Quis nulla blandit vulputate morbi adipiscing sem vestibulum.
-                                                                                        Nulla turpis...
+                                                                                        Successfully resolved and closed complaints.
                                                                                     </p>
                                                                                 </div>
                                                                             </div>
-                                                                        </a>
+                                                                        </Link>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="service-details-3.html">
+                                                                        <Link to="/processed">
                                                                             <div class="single-service-menu">
                                                                                 <div class="icon">
                                                                                     <img src="assets/images/service/06.svg" alt="service"/>
                                                                                 </div>
                                                                                 <div class="info">
-                                                                                    <h5 class="title">Pending</h5>
+                                                                                    <h5 class="title">Processed</h5>
                                                                                     <p class="details">
-                                                                                        Elever Architecture is a New-York-based studio on modern...
+                                                                                        Complaints that have been processed and are under review.
                                                                                     </p>
                                                                                 </div>
                                                                             </div>
-                                                                        </a>
+                                                                        </Link>
                                                                     </li>
                                                                 </ul>
                                                             </div>
                                                             <div class="col-lg-4">
                                                                 <ul class="mega-menu-item parent-nav">
                                                                     <li>
-                                                                        <a href="service-details-4.html">
+                                                                        <Link to="/assigned">
                                                                             <div class="single-service-menu">
                                                                                 <div class="icon">
                                                                                     <img src="assets/images/service/07.svg" alt="service"/>
                                                                                 </div>
                                                                                 <div class="info">
-                                                                                    <h5 class="title">Assigned /Not Starded</h5>
+                                                                                    <h5 class="title">Assigned</h5>
                                                                                     <p class="details">
-                                                                                        We provide best IT solutions for any type of business.
+                                                                                        Active complaints assigned to workers for resolution.
                                                                                     </p>
                                                                                 </div>
                                                                             </div>
-                                                                        </a>
+                                                                        </Link>
                                                                     </li>
                                                                     <li>
                                                                         <Link to="/notassign">

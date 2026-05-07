@@ -97,7 +97,7 @@ export const Compwoker = () => {
                                 <div className="space-y-8">
                                     <div className="aspect-video rounded-3xl overflow-hidden bg-gray-100 shadow-inner">
                                         <img 
-                                            src={`http://localhost:9000/uploads/${pic}`} 
+                                            src={`/uploads/${pic}`} 
                                             alt={pro}
                                             className="w-full h-full object-cover"
                                             onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1584467735815-f778f274e296?auto=format&fit=crop&q=80&w=800'; }}

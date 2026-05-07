@@ -148,7 +148,8 @@ export const Postcom = () => {
                                                 <HiOutlineUser className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                                                 <input 
                                                     type="text" required
-                                                    className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                                    className="w-full pl-14 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                                    style={{ paddingLeft: '3.5rem' }}
                                                     placeholder="John Doe"
                                                     onChange={(e) => setname(e.target.value)}
                                                 />
@@ -160,7 +161,8 @@ export const Postcom = () => {
                                                 <HiOutlineMail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                                                 <input 
                                                     type="email" required
-                                                    className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                                    className="w-full pl-14 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                                    style={{ paddingLeft: '3.5rem' }}
                                                     placeholder="john@example.com"
                                                     onChange={(e) => setemail(e.target.value)}
                                                 />
@@ -172,7 +174,8 @@ export const Postcom = () => {
                                                 <HiOutlinePhone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                                                 <input 
                                                     type="tel" required
-                                                    className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                                    className="w-full pl-14 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                                    style={{ paddingLeft: '3.5rem' }}
                                                     placeholder="9876543210"
                                                     onChange={(e) => setphone(e.target.value)}
                                                 />
@@ -184,7 +187,8 @@ export const Postcom = () => {
                                                 <HiOutlineClipboardList className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                                                 <input 
                                                     type="text" required
-                                                    className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                                    className="w-full pl-14 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                                                    style={{ paddingLeft: '3.5rem' }}
                                                     placeholder="e.g. Water Leakage, Pothole"
                                                     onChange={(e) => setproblem(e.target.value)}
                                                 />

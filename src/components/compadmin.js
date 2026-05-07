@@ -49,7 +49,8 @@ export const Compadmin = () => {
                             <input 
                                 type="text"
                                 placeholder="Search by name or problem..."
-                                className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-2xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all shadow-sm"
+                                className="w-full pl-14 pr-4 py-3 bg-white border border-gray-200 rounded-2xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all shadow-sm"
+                                style={{ paddingLeft: '3.5rem' }}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
@@ -73,7 +74,7 @@ export const Compadmin = () => {
                                             {/* Thumbnail */}
                                             <div className="w-full md:w-48 aspect-video md:aspect-square rounded-2xl overflow-hidden bg-gray-100 flex-shrink-0">
                                                 <img 
-                                                    src={`http://localhost:9000/uploads/${a.Pic}`} 
+                                                    src={`/uploads/${a.Pic}`} 
                                                     alt="Complaint"
                                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                     onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1584467735815-f778f274e296?auto=format&fit=crop&q=80&w=800'; }}

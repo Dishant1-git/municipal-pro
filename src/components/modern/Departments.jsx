@@ -12,7 +12,7 @@ export const Departments = () => {
   return (
     <section id="departments" className="py-20 bg-light">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
           <div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               City Departments
@@ -21,7 +21,7 @@ export const Departments = () => {
               Our various administrative wings working tirelessly to maintain and upgrade the city's infrastructure.
             </p>
           </div>
-          <button className="text-primary font-semibold hover:text-accent transition-colors mt-4 md:mt-0">
+          <button className="text-primary font-semibold hover:text-accent transition-colors mt-4 md:mt-0 w-fit flex-shrink-0 whitespace-nowrap">
             View All Directory →
           </button>
         </div>

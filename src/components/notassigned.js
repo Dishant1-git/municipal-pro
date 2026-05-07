@@ -55,7 +55,7 @@ export const Notassigned = () => {
                                         <div className="flex flex-col md:flex-row gap-8 items-center">
                                             <div className="w-full md:w-44 aspect-video rounded-2xl overflow-hidden bg-gray-100 flex-shrink-0">
                                                 <img 
-                                                    src={`http://localhost:9000/uploads/${a.Pic}`} 
+                                                    src={`/uploads/${a.Pic}`} 
                                                     alt="Complaint"
                                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                     onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1584467735815-f778f274e296?auto=format&fit=crop&q=80&w=800'; }}

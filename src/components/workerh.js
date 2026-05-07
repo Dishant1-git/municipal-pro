@@ -1,13 +1,32 @@
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { Logout } from "../reducer/userslice"
 
 export const Worker=()=>{
     const [id,setid]=useState("")
+    const [flag, setflag] = useState(false)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     useEffect(()=>{
-const data=JSON.parse(sessionStorage.getItem("info"))
-setid(data.id)
+        const data=JSON.parse(sessionStorage.getItem("info"))
+        if (data) {
+            setid(data.id)
+            setflag(true)
+        } else {
+            setflag(false)
+        }
     },[])
+
+    const logout = () => {
+        localStorage.removeItem("token")
+        sessionStorage.removeItem("info")
+        setflag(false)
+        dispatch(Logout())
+        navigate("/")
+    }
+
     return(
         <>
         <header className="bg-white shadow-md border-b border-gray-100 z-50 sticky top-0">
@@ -79,69 +98,68 @@ setid(data.id)
                                                                 <ul class="mega-menu-item parent-nav">
                                                                     <li>
                                                                         
-                                                                        <Link to={`/workjob?id=${id}`}>
+                                                                        <Link to="/worker-dashboard">
                                                                             <div class="single-service-menu">
                                                                                 <div class="icon">
                                                                                     <img src="assets/images/service/04.svg" alt="service"/>
                                                                                 </div>
                                                                                 <div class="info">
-                                                                                    <h5 class="title">My works</h5>
+                                                                                    <h5 class="title">My Dashboard</h5>
                                                                                     <p class="details">
-                                                                                        Once planning is complete, site preparation begins.
+                                                                                        Overview of your tasks, performance, and charts.
                                                                                     </p>
                                                                                 </div>
                                                                             </div>
                                                                         </Link>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="service-details-2.html">
+                                                                        <Link to="/completed-work">
                                                                             <div class="single-service-menu">
                                                                                 <div class="icon">
                                                                                     <img src="assets/images/service/05.svg" alt="service"/>
                                                                                 </div>
                                                                                 <div class="info">
-                                                                                    <h5 class="title">Creative Ideas</h5>
+                                                                                    <h5 class="title">Completed Works</h5>
                                                                                     <p class="details">
-                                                                                        Quis nulla blandit vulputate morbi adipiscing sem vestibulum.
-                                                                                        Nulla turpis...
+                                                                                        Your successfully resolved and closed complaints.
                                                                                     </p>
                                                                                 </div>
                                                                             </div>
-                                                                        </a>
+                                                                        </Link>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="service-details-3.html">
+                                                                        <Link to="/processed">
                                                                             <div class="single-service-menu">
                                                                                 <div class="icon">
                                                                                     <img src="assets/images/service/06.svg" alt="service"/>
                                                                                 </div>
                                                                                 <div class="info">
-                                                                                    <h5 class="title">Market Research</h5>
+                                                                                    <h5 class="title">Processed</h5>
                                                                                     <p class="details">
-                                                                                        Elever Architecture is a New-York-based studio on modern...
+                                                                                        Complaints that have been processed and are under review.
                                                                                     </p>
                                                                                 </div>
                                                                             </div>
-                                                                        </a>
+                                                                        </Link>
                                                                     </li>
                                                                 </ul>
                                                             </div>
                                                             <div class="col-lg-4">
                                                                 <ul class="mega-menu-item parent-nav">
                                                                     <li>
-                                                                        <a href="service-details-4.html">
+                                                                        <Link to="/assigned">
                                                                             <div class="single-service-menu">
                                                                                 <div class="icon">
                                                                                     <img src="assets/images/service/07.svg" alt="service"/>
                                                                                 </div>
                                                                                 <div class="info">
-                                                                                    <h5 class="title">Structural Engineering</h5>
+                                                                                    <h5 class="title">Assigned Works</h5>
                                                                                     <p class="details">
-                                                                                        We provide best IT solutions for any type of business.
+                                                                                        Active complaints assigned to you for resolution.
                                                                                     </p>
                                                                                 </div>
                                                                             </div>
-                                                                        </a>
+                                                                        </Link>
                                                                     </li>
                                                                     <li>
                                                                         <a href="service-details-5.html">
@@ -281,10 +299,14 @@ setid(data.id)
                                         <li class="main-nav has-dropdown project-a-after">
                                             <a href="#">Login</a>
                                             <ul class="submenu parent-nav">
-                                                <li>  <Link to="/signup">Signup</Link></li>
-                                                <li><Link to="/Login">Loginp</Link></li>
-                                                <li><a >Logout</a></li>
-                                                
+                                                {
+                                                    flag === true ? 
+                                                    <li><Link to="/" onClick={logout}>Logout</Link></li> : 
+                                                    <>
+                                                        <li><Link to="/signup">Signup</Link></li>
+                                                        <li><Link to="/Login">Login</Link></li>
+                                                    </>
+                                                }
                                             </ul>
                                         </li>
                                         <li class="main-nav has-dropdown project-a-after">

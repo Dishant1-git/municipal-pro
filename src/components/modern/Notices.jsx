@@ -44,7 +44,7 @@ export const Notices = () => {
                       <h4 className="text-lg font-semibold text-gray-900 group-hover:text-primary transition-colors">{notice.title}</h4>
                     </div>
                   </div>
-                  <button className="text-gray-400 hover:text-primary p-2 transition-colors self-start sm:self-auto">
+                  <button className="w-10 h-10 flex items-center justify-center rounded-full text-gray-400 hover:text-primary hover:bg-gray-100 transition-all self-start sm:self-auto flex-shrink-0">
                     <HiOutlineDownload className="text-xl" />
                   </button>
                 </motion.div>

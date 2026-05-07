@@ -81,7 +81,7 @@ const name=req.body.name
 console.log(email,"email from api")
 
 const mailOptions={
-    from:"<No reply>"+process.env.AdminMail,
+    from:"<No reply>"+process.env.Email,
     to:email,
     subject:"Regarding your complaint",
     text:"Thanks for contacting us, we have received your complaint and will get back to you soon",
@@ -373,31 +373,72 @@ if(findWork){
 })
 
 
-//all assigned work 
+// unassigned work
+app.get("/api/notassign", async(req, res) => {
+    const findwork = await Compmodel.find({ Assignedto: " " });
+    if(findwork) {
+        res.send({statuscode:1, data:findwork});
+    } else {
+        res.send({statuscode:0});
+    }
+});
 
+// processed work
+app.get("/api/processed", async(req, res) => {
+    const query = { Status: "Processed" };
+    if (req.query.workerId) {
+        query.Assignedto = req.query.workerId;
+    }
+    const findwork = await Compmodel.find(query);
+    if(findwork) {
+        res.send({statuscode:1, data:findwork});
+    } else {
+        res.send({statuscode:0});
+    }
+});
+
+//all assigned work 
 app.get("/api/assignwork", async(req,res)=>{
-    const findwork=await Compmodel.find({Status:"Assigned to worker"})
-  
+    const query = { Status: "Assigned to worker" };
+    if (req.query.workerId) {
+        query.Assignedto = req.query.workerId;
+    }
+    const findwork = await Compmodel.find(query);
     if(findwork){
-         
-        res.send({statuscode:1,data:findwork})
+        res.send({statuscode:1,data:findwork});
     }
     else{
-        res.send({statuscode:0})
+        res.send({statuscode:0});
     }
 })
 
 
 //all completed work 
-
 app.get("/api/completed", async(req,res)=>{
-    const findwork=await Compmodel.find({Status:"completed"})
-  
+    const query = { Status: "completed" };
+    if (req.query.workerId) {
+        query.Assignedto = req.query.workerId;
+    }
+    const findwork = await Compmodel.find(query);
     if(findwork){
-         
-        res.send({statuscode:1,data:findwork})
+        res.send({statuscode:1,data:findwork});
     }
     else{
-        res.send({statuscode:0})
+        res.send({statuscode:0});
+    }
+})
+
+//all reverted work
+app.get("/api/reverted", async(req,res)=>{
+    const query = { Status: "Revert to admin" };
+    if (req.query.workerId) {
+        query.Assignedto = req.query.workerId;
+    }
+    const findwork = await Compmodel.find(query);
+    if(findwork){
+        res.send({statuscode:1,data:findwork});
+    }
+    else{
+        res.send({statuscode:0});
     }
 })

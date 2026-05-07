@@ -2,17 +2,26 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { motion } from 'framer-motion'
 import { HiOutlineUser, HiOutlineCalendar, HiOutlineClipboardList, HiOutlineClock } from 'react-icons/hi'
+import { useSelector } from 'react-redux'
 
 export const Assigned = () => {
     const [allcomp, setallcomp] = useState([])
+    const { Role } = useSelector((state) => state.userslice) || { Role: "" }
 
     useEffect(() => {
         get()
-    }, [])
+    }, [Role])
 
     const get = async () => {
         try {
-            const result = await fetch("http://localhost:9000/api/assignwork", {
+            let url = "http://localhost:9000/api/assignwork";
+            if (Role === "worker") {
+                const info = JSON.parse(sessionStorage.getItem("info"));
+                if (info && info.id) {
+                    url += `?workerId=${info.id}`;
+                }
+            }
+            const result = await fetch(url, {
                 method: "get"
             })
             if (result.ok) {
@@ -50,7 +59,7 @@ export const Assigned = () => {
                                         <div className="flex flex-col md:flex-row gap-8 items-center">
                                             <div className="w-full md:w-44 aspect-video rounded-2xl overflow-hidden bg-gray-100 flex-shrink-0">
                                                 <img 
-                                                    src={`http://localhost:9000/uploads/${a.Pic}`} 
+                                                    src={`/uploads/${a.Pic}`} 
                                                     alt="Complaint"
                                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                     onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1584467735815-f778f274e296?auto=format&fit=crop&q=80&w=800'; }}

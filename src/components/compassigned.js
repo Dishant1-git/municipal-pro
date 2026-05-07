@@ -63,9 +63,9 @@ export const Compassigned = () => {
                                             {/* Thumbnail */}
                                             <div className="w-full md:w-40 aspect-video rounded-2xl overflow-hidden bg-gray-100 flex-shrink-0">
                                                 <img 
-                                                    src={`http://localhost:9000/uploads/${a.Pic}`} 
-                                                    alt="Task"
-                                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                                                    src={`/uploads/${a.Pic}`} 
+                                                    alt="Complaint"
+                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                     onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1584467735815-f778f274e296?auto=format&fit=crop&q=80&w=800'; }}
                                                 />
                                             </div>

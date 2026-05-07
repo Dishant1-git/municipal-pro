@@ -90,10 +90,9 @@ export const Usercomp = () => {
                                     transition={{ delay: index * 0.1 }}
                                     className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow group"
                                 >
-                                    {/* Image Placeholder or Actual Image */}
                                     <div className="aspect-video relative overflow-hidden bg-gray-100">
                                         <img 
-                                            src={`http://localhost:9000/uploads/${comp.Pic}`} 
+                                            src={`/uploads/${comp.Pic}`} 
                                             alt={comp.Problem}
                                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                             onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1584467735815-f778f274e296?auto=format&fit=crop&q=80&w=800'; }}
