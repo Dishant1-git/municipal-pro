@@ -1,0 +1,84 @@
+MUNICIPAL SERVICES PORTAL - OFFICIAL KNOWLEDGE BASE & FAQ
+
+--- 1. GENERAL INFORMATION ---
+What is the Municipal Services Portal?
+The Municipal Services Portal is a unified platform for citizens to report local issues, request municipal services, and track the progress of their complaints online.
+
+Who can use this portal?
+Any citizen can sign up and use the portal to report issues in their locality. Municipal workers and administrators also use the portal to manage and resolve these issues.
+
+--- 2. ACCOUNT & REGISTRATION ---
+How do I create an account?
+Click on the "Sign Up" button on the homepage. You will need to provide your Name, Email Address, and create a Password. Once registered, you can log in immediately.
+
+I forgot my password. How do I reset it?
+Currently, password resets are handled manually. Please contact our support team via the "Contact" page or email us directly.
+
+Is my data secure?
+Yes. All passwords are encrypted securely. We do not share your personal information with unauthorized third parties.
+
+--- 3. FILING A COMPLAINT ---
+How do I file a new complaint?
+1. Log in to your account.
+2. Click on "File New Complaint" or navigate to the "Post Complaint" section.
+3. Fill in the required details: Your Name, Email, Phone number, Problem Category, Address of the issue, and detailed description.
+4. You MUST upload an image (picture) of the problem to help our workers identify it.
+5. Click Submit.
+
+What types of problems can I report?
+You can report various municipal issues including:
+- Street light outages
+- Water supply issues or leaks
+- Garbage collection and sanitation problems
+- Potholes and road damage
+- Public park maintenance
+- Drainage and sewage issues
+
+Do I need to upload a photo?
+Yes, a photograph of the issue is mandatory when filing a complaint. This helps our workers locate and assess the severity of the problem quickly.
+
+--- 4. COMPLAINT TRACKING & STATUSES ---
+How do I check the status of my complaint?
+Navigate to "My Complaints" from your user dashboard. You will see a list of all your reported issues and their current statuses.
+
+What do the different complaint statuses mean?
+- Processed: Your complaint has been received and is waiting to be assigned to a worker by the admin.
+- Assigned to worker: An administrator has assigned your complaint to a specific municipal worker with a priority level (High, Medium, Low).
+- Completed: The assigned worker has resolved the issue.
+- Revert to admin: The worker could not complete the task (e.g., due to wrong address or requiring different equipment) and has sent it back to the admin with a reason.
+
+Will I be notified about my complaint?
+Yes, our system sends automated email notifications to keep you informed when your complaint is received and being processed.
+
+--- 5. WORKER & ADMIN PROCESSES (How it works behind the scenes) ---
+Who fixes the problems?
+Our registered municipal workers handle the physical resolution of complaints. 
+
+How does the process work?
+1. You submit a complaint.
+2. The Administrator reviews it on the Admin Dashboard and assigns it to the appropriate worker, setting a Priority (High, Medium, or Low) and adding specific instructions.
+3. The Worker sees the task on their "Worker Dashboard".
+4. The Worker goes to the location, fixes the issue, and updates the status to "Completed" on the portal.
+
+What happens if a worker cannot fix the issue?
+If a worker cannot resolve an issue, they will use the "Revert to admin" option and provide a detailed reason (Addon message). The Admin will then review the unassigned or reverted tasks and take appropriate alternative action.
+
+--- 6. SERVICES ---
+What other services do you offer?
+You can view all our available services on the "Services" page. This may include information about property tax, water connection applications, and waste management schedules.
+
+How to apply for a water connection?
+You can apply online through the citizen portal or visit the local municipal office. Required documents typically include ID proof, address proof, and property tax receipt.
+
+How to pay property tax online?
+Property tax details can be found under the "Services" tab. Online payments are coming soon.
+
+--- 7. CONTACT & SUPPORT ---
+How do I contact the municipal office?
+You can visit the "Contact" page to send us a direct message, or you can use the following details:
+- Toll-free Helpline: 1800-111-2222 (Available 24/7 for emergencies)
+- Office Hours: Monday to Friday, 9:00 AM to 5:00 PM
+- Email: support@municipalportal.com
+
+Where is the municipal office located?
+The main municipal office is located in the city center. Please check the "Contact" page for the exact map and address.

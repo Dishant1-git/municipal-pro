@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login, Logout } from './reducer/userslice';
 import { Admin } from './components/admin';
 import { Worker } from './components/workerh';
+import Chatbot from './components/chatbot/Chatbot';
 
 function App() {
   const [type, settype] = useState()
@@ -107,6 +108,7 @@ function App() {
       }
       <Routee />
       <Footer />
+      <Chatbot />
     </>
   );
 }

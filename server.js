@@ -35,6 +35,68 @@ app.use(express.json())
 
 require('dotenv').config();
 
+const fs = require('fs');
+const path = require('path');
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
+// Chatbot RAG Logic
+const getKnowledgeBase = () => {
+    try {
+        const filePath = path.join(__dirname, 'website-data.txt');
+        return fs.readFileSync(filePath, 'utf8');
+    } catch (error) {
+        console.error("Error reading knowledge base file:", error);
+        return "";
+    }
+};
+
+const searchContext = (query) => {
+    return getKnowledgeBase();
+};
+
+const genAI = new GoogleGenerativeAI(process.env.geminiApi);
+
+const generateResponse = async (question, context) => {
+    try {
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+        const prompt = `
+You are a helpful assistant for the Municipal Services Portal. 
+Below is the content of our knowledge base. 
+Answer the user's question based strictly and ONLY on this knowledge base content. 
+If the answer cannot be found in the knowledge base, you must reply exactly with: "Information not found in the knowledge base."
+Do not generate any information that is outside of this context.
+
+--- KNOWLEDGE BASE ---
+${context}
+----------------------
+
+User Question: ${question}
+Answer:`;
+
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        return response.text().trim();
+    } catch (error) {
+        console.error("Error generating response from Gemini API:", error);
+        return "I'm sorry, I am currently experiencing technical difficulties. Please try again later.";
+    }
+};
+
+app.post('/api/chat', async (req, res) => {
+    try {
+        const { question } = req.body;
+        if (!question) {
+            return res.status(400).json({ answer: "Please provide a question." });
+        }
+        const context = searchContext(question);
+        const answer = await generateResponse(question, context);
+        res.json({ answer });
+    } catch (error) {
+        console.error("Chat Controller Error:", error);
+        res.status(500).json({ answer: "Server error. Please try again later." });
+    }
+});
+
 
 
 const Port = process.env.React_app_port || 9000;
