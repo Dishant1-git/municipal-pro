@@ -19,7 +19,7 @@ const limiter = rateLimit({
 });
 app.use(limiter)
 
-const whitelist = ['http://localhost:3000', 'http://localhost:9000']; 
+const whitelist = ['http://localhost:3000', 'http://localhost:9000'];
 const corsOptions = {
     origin: function (origin, callback) {
         if (whitelist.indexOf(origin) !== -1 || !origin) {
@@ -123,41 +123,100 @@ mongoose.connect(process.env.Mongoose_url)
 
 
 
-    //mailersend setup
-    const mailerSend = new MailerSend({
-        apiKey: process.env.mailtoken ,
-    });
+//mailersend setup
+const mailerSendApiKey = process.env.mailtoken;
+
+if (!mailerSendApiKey) {
+    console.error("MailerSend API key is missing. Please set mailtoken in your .env file.");
+}
+
+const mailerSend = mailerSendApiKey ? new MailerSend({
+    apiKey: mailerSendApiKey,
+}) : null;
 
 
 //mailersend api
 
-app.post('/api/nodemail',async(req,res)=>{
+app.post('/api/nodemail', async (req, res) => {
 
     console.log("mailersend api hit")
-const email=req.body.email
-const name=req.body.name
-console.log(email,"email from api")
+    const email = req.body.email
+    const name = req.body.name
+    console.log(email, "email from api")
 
-const sentFrom = new Sender(process.env.maileremail || "no-reply@yourdomain.com", "Municipal Services");
-const recipients = [
-  new Recipient(email, name)
-];
+    if (!mailerSend) {
+        return res.status(500).send({ statuscode: 0, message: "MailerSend is not configured. Please set your mailtoken in .env." })
+    }
 
-const emailParams = new EmailParams()
-  .setFrom(sentFrom)
-  .setTo(recipients)
-  .setSubject("Regarding your complaint")
-  .setText("Thanks for contacting us, we have received your complaint and will get back to you soon")
-  .setHtml(`<h1>Hi ${name} </h1>   <h3> Sorry for the problem You are facing.</h3><p>We have received your complaint and will Resolve your problem as soon as possible. </p>`);
+    const sentFrom = new Sender(process.env.maileremail || "no-reply@yourdomain.com", "Municipal Services");
+    const recipients = [
+        new Recipient(email, name)
+    ];
 
-try {
-    const result = await mailerSend.email.send(emailParams);
-    console.log(result,"result from mailersend")
-    res.send({statuscode:1,message:"Email sent Succesfully"})
-} catch (error) {
-    console.log(error,"error from mailersend")
-    res.send({statuscode:0,message:"Error ocuured while Sending mail"})
-}
+    const emailParams = new EmailParams()
+        .setFrom(sentFrom)
+        .setTo(recipients)
+        .setSubject("Regarding your complaint")
+        .setText("Thanks for contacting us, we have received your complaint and will get back to you soon")
+        .setHtml(`
+            <div style="margin:0;padding:0;background-color:#f4f7fb;">
+              <div style="max-width:640px;margin:0 auto;padding:32px 20px;">
+                <div style="background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #d9e2f0;box-shadow:0 8px 24px rgba(15,23,42,0.08);">
+                  <div style="background:linear-gradient(135deg,#0f172a,#1d4ed8);padding:24px 28px;color:#ffffff;">
+                    <p style="margin:0;font-size:13px;letter-spacing:0.06em;text-transform:uppercase;color:#dbeafe;">Municipal Services Portal</p>
+                    <h1 style="margin:12px 0 6px;font-size:26px;line-height:1.3;color:#ffffff;">Thanks for reaching out, ${name || 'Customer'}.</h1>
+                    <p style="margin:0;font-size:15px;line-height:1.6;color:#e2e8f0;">We’ve received your complaint and our team is reviewing it now.</p>
+                  </div>
+
+                  <div style="padding:28px;">
+                    <p style="margin:0 0 16px;font-size:16px;line-height:1.7;color:#334155;">
+                      Your request has been logged successfully. We appreciate the details you shared and will work to resolve the issue as quickly as possible.
+                    </p>
+
+                    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:18px 20px;margin:20px 0;">
+                      <p style="margin:0 0 8px;font-size:14px;font-weight:700;color:#0f172a;">What happens next</p>
+                      <ul style="margin:0;padding-left:20px;color:#475569;font-size:15px;line-height:1.8;">
+                        <li>Our team will review your complaint.</li>
+                        <li>We will update the status and communicate any next steps.</li>
+                        <li>Once the issue is resolved, you’ll receive confirmation.</li>
+                      </ul>
+                    </div>
+
+                    <p style="margin:18px 0 0;font-size:14px;line-height:1.7;color:#64748b;">
+                      If you need to add more information, please log in to your account and update the complaint details.
+                    </p>
+                  </div>
+
+                  <div style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:16px 28px;text-align:center;">
+                    <p style="margin:0;font-size:13px;color:#64748b;">Municipal Services Portal • Trusted support for your community</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+        `);
+
+    try {
+        const result = await mailerSend.email.send(emailParams);
+        console.log(result, "result from mailersend")
+        res.send({ statuscode: 1, message: "Email sent Succesfully" })
+    } catch (error) {
+        const statusCode = error?.statusCode;
+        const responseBody = error?.body;
+
+        if (statusCode === 401) {
+            console.error("MailerSend authentication failed. Check your mailtoken in .env.", {
+                statusCode,
+                body: responseBody,
+            });
+        } else {
+            console.error("MailerSend error", {
+                statusCode,
+                body: responseBody,
+            });
+        }
+
+        res.send({ statuscode: 0, message: "Error occurred while sending mail" })
+    }
 
 })
 
@@ -227,7 +286,7 @@ app.get("/api/workers", async (req, res) => {
 
 //login api
 app.post("/api/login", async (req, res) => {
-   
+
     const find = await Registermodel.findOne({ Email: req.body.email })
     console.log(find)
 
@@ -296,11 +355,11 @@ const Complaintschema = new mongoose.Schema({
     Detail: String,
     Pic: String,
     AddOn: String,
-    Priority:String,
+    Priority: String,
     Status: String,
     Assignedto: String,
     Messageadmin: String,
-      Completedon:String
+    Completedon: String
 }, { versionKey: false })
 
 
@@ -326,7 +385,7 @@ app.post("/api/complaint", upload.single('pic'), async (req, res) => {
             Status: "Processed",
             Assignedto: " ",
             Messageadmin: " ",
-            Completedon:""
+            Completedon: ""
 
         })
         const result = await record.save()
@@ -360,7 +419,7 @@ app.get("/api/compget/:id", async (req, res) => {
 
 //get all complaints admin
 app.get("/api/allcomp", async (req, res) => {
-    const result = await Compmodel.find().sort({"AddOn":-1})
+    const result = await Compmodel.find().sort({ "AddOn": -1 })
     if (result) {
         res.send({ statuscode: 1, compdata: result })
     }
@@ -386,7 +445,7 @@ app.put("/api/compupdate/:id", async (req, res) => {
     const compup = await Compmodel.updateOne({ _id: req.params.id }, {
         $set: {
             Status: "Assigned to worker"
-             ,Messageadmin:req.body.message,Assignedto:req.body.assignedtoo ,Priority:req.body.priority
+            , Messageadmin: req.body.message, Assignedto: req.body.assignedtoo, Priority: req.body.priority
 
         }
     })
@@ -406,14 +465,14 @@ app.put("/api/compupworker/:id", async (req, res) => {
     const compup = await Compmodel.updateOne({ _id: req.params.id }, {
         $set: {
             Status: "Assigned to worker"
-             ,Messageadmin:req.body.message,Status:req.body.status ,Completedon:new Date()
+            , Messageadmin: req.body.message, Status: req.body.status, Completedon: new Date()
 
         }
     })
-  
+
     if (compup) {
-      
-        res.send({ statuscode: 1,newdata:compup })
+
+        res.send({ statuscode: 1, newdata: compup })
     }
     else {
         res.send({ statuscode: 0 })
@@ -425,82 +484,82 @@ app.put("/api/compupworker/:id", async (req, res) => {
 
 
 //worker gets their work 
-app.get("/api/compwork/:id", async(req,res)=>{
-const findWork= await Compmodel.find({Assignedto:req.params.id})
-if(findWork){
-    res.send({statuscode:1,comp:findWork})
-}else{
-    res.send({statuscode:0})
-}
+app.get("/api/compwork/:id", async (req, res) => {
+    const findWork = await Compmodel.find({ Assignedto: req.params.id })
+    if (findWork) {
+        res.send({ statuscode: 1, comp: findWork })
+    } else {
+        res.send({ statuscode: 0 })
+    }
 })
 
 
 // unassigned work
-app.get("/api/notassign", async(req, res) => {
+app.get("/api/notassign", async (req, res) => {
     const findwork = await Compmodel.find({ Assignedto: " " });
-    if(findwork) {
-        res.send({statuscode:1, data:findwork});
+    if (findwork) {
+        res.send({ statuscode: 1, data: findwork });
     } else {
-        res.send({statuscode:0});
+        res.send({ statuscode: 0 });
     }
 });
 
 // processed work
-app.get("/api/processed", async(req, res) => {
+app.get("/api/processed", async (req, res) => {
     const query = { Status: "Processed" };
     if (req.query.workerId) {
         query.Assignedto = req.query.workerId;
     }
     const findwork = await Compmodel.find(query);
-    if(findwork) {
-        res.send({statuscode:1, data:findwork});
+    if (findwork) {
+        res.send({ statuscode: 1, data: findwork });
     } else {
-        res.send({statuscode:0});
+        res.send({ statuscode: 0 });
     }
 });
 
 //all assigned work 
-app.get("/api/assignwork", async(req,res)=>{
+app.get("/api/assignwork", async (req, res) => {
     const query = { Status: "Assigned to worker" };
     if (req.query.workerId) {
         query.Assignedto = req.query.workerId;
     }
     const findwork = await Compmodel.find(query);
-    if(findwork){
-        res.send({statuscode:1,data:findwork});
+    if (findwork) {
+        res.send({ statuscode: 1, data: findwork });
     }
-    else{
-        res.send({statuscode:0});
+    else {
+        res.send({ statuscode: 0 });
     }
 })
 
 
 //all completed work 
-app.get("/api/completed", async(req,res)=>{
+app.get("/api/completed", async (req, res) => {
     const query = { Status: "completed" };
     if (req.query.workerId) {
         query.Assignedto = req.query.workerId;
     }
     const findwork = await Compmodel.find(query);
-    if(findwork){
-        res.send({statuscode:1,data:findwork});
+    if (findwork) {
+        res.send({ statuscode: 1, data: findwork });
     }
-    else{
-        res.send({statuscode:0});
+    else {
+        res.send({ statuscode: 0 });
     }
 })
 
 //all reverted work
-app.get("/api/reverted", async(req,res)=>{
+app.get("/api/reverted", async (req, res) => {
     const query = { Status: "Revert to admin" };
     if (req.query.workerId) {
         query.Assignedto = req.query.workerId;
     }
     const findwork = await Compmodel.find(query);
-    if(findwork){
-        res.send({statuscode:1,data:findwork});
+    if (findwork) {
+        res.send({ statuscode: 1, data: findwork });
     }
-    else{
-        res.send({statuscode:0});
+    else {
+        res.send({ statuscode: 0 });
     }
 })
